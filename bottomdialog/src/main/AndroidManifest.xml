@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.vove7.bottomdialog">
+
+    <application>
+        <activity
+            android:name=".BottomDialogActivity"
+            android:theme="@style/BottomDialogActivity" />
+    </application>
+</manifest>

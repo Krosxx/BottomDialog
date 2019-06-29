@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">BottomSheetDialog</string>
+    <string name="message_dialog">Message Dialog</string>
+    <string name="simple_list_dialog">Simple List Dialog</string>
+    <string name="adapter_list_dialog">Adapter List Dialog</string>
+</resources>
