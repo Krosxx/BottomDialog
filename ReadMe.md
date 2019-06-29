@@ -8,6 +8,23 @@
 
 ![](screenshots/s0.jpg)
 
+### 目录
+
+- [特性](#特性)
+- [DEMO](#DEMO)
+  - [简单标题文字](#简单标题文字)
+  - [简单列表](#简单列表)
+  - [自定义列表](#自定义列表)
+- [引入BottomDialog](#引入BottomDialog)
+- [自定义布局构造器](#自定义布局构造器)
+  - [1. 三层布局构造器](#1.-定义三层布局构造器)
+  - [2. 设置扩展函数](#2.-设置扩展函数)
+  - [3. 自定义列表内容布局](#3.-自定义列表内容布局)
+- [更多](#更多)
+  - [1. show()过后如何更新布局？](#1.-show()过后如何更新布局？)
+  - [2. 属性委托相关](#2.-属性委托相关)
+- [实现原理](#实现原理)
+
 ### 特性
 
 - 高度自定义
@@ -29,7 +46,7 @@
 
 ### DEMO
 
-- 简单标题文字
+#### 简单标题文字
 
 ![](screenshots/s1.gif)
 
@@ -55,7 +72,7 @@
  }
 ```
 
-- 简单列表
+#### 简单列表
 
 ![](screenshots/s2.gif)
 
@@ -81,7 +98,7 @@ BottomDialog.builder(this) {
 }
 ```
 
-- 自定义列表
+#### 自定义列表
 
 加载应用列表，AppListBuilder 见下文自定义布局构造器
 
@@ -97,24 +114,49 @@ BottomDialog.builder(this) {
  }
 ```
 
+### 引入BottomDialog
+
+1. 在工程`build.gradle`添加  
+```groovy
+allprojects {
+    repositories {
+        //...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+2. 添加依赖
+```groovy
+dependencies {
+    implementation 'com.github.Vove7:BottomDialog:1.0'
+}
+```
+
+
 ### 自定义布局构造器
 
-1. 三层布局均可继承`ContentBuilder`
+#### 1. 定义三层布局构造器
+
+三层布局均可继承`ContentBuilder`
 
 如 `ToolbarHeader`，其中`title`属性被`listenToUpdate`委托，在修改时，会通知`updateContent`进行更新布局。
 
 ```kotlin
 class ToolbarHeader(title: CharSequence?) : ContentBuilder() {
     /**
-     * 指定更新type=1
+     * 指定更新type = 1
      */
     var title by listenToUpdate(title, this, type = 1)
 
     /**
-     * 导航栏图标
+     * 导航栏图标 type = 2
      */
     var navIconId: Int? by listenToUpdate(null, this, type = 2)
 
+    /**
+     * 导航图标点击事件 type = 3
+     */
     var onIconClick: OnClick? by listenToUpdate(null, this, type = 3)
 
     override val layoutRes: Int = R.layout.header_toolbar
@@ -131,30 +173,64 @@ class ToolbarHeader(title: CharSequence?) : ContentBuilder() {
 
     /**
      * 进行视图更新
-     * @param type Int listenToUpdate中指定的type，第一次刷新type值为-1
+     * @param type Int listenToUpdate中指定的type，初始化时type值为-1
      * 可根据type值来选择更新视图，而不是全部更新
      * @param data Any? 传递值
      */
     override fun updateContent(type: Int, data: Any?) {
-        if (type >= -1) toolBar.title = title
+        //type 为1 时，属性 title 被修改
+        if (type == -1 || type == 1) toolBar.title = title
         
-        if (type <= -1)
+        if (type == -1 || type == 2)
             navIconId?.also {
                 toolBar.setNavigationIcon(it)
             } ?: toolBar.setNavigationIcon(null)
-            
+        
         if (type == -1 || type == 3) {
             toolBar.setNavigationOnClickListener {
                 onIconClick?.invoke(dialog)
             }
         }
     }
-
 }
 ```
-2. 设置扩展函数
+
+#### 2. 设置扩展函数
+
+**此操作可选**，目的是为了方便在builder函数中调用。
+
+已扩展的函数有：
+```kotlin
+
+//设置标题
+fun BottomDialogBuilder.title(title: CharSequence?): BottomDialogBuilder
+
+//设置内容
+fun BottomDialogBuilder.message(
+    text: String, 
+    selectable: Boolean = false
+): BottomDialogBuilder
+
+//简单列表
+fun BottomDialogBuilder.simpleList(
+    items: List<String?>, 
+    autoDismiss: Boolean = true, 
+    onItemClick: OnItemClick<String?>
+): BottomDialogBuilder
+
+/**
+ * 三个按钮布局
+ * buttonPositive
+ * buttonNegative
+ * buttonNeutral
+ */
+fun BottomDialogBuilder.buttons(block: ButtonsBuilder.() -> Unit): BottomDialogBuilder
+
+//........ 更多参考Class: [BottomDialogBuilder]
+```
 
 如扩展`BottomDialogBuilder`一个toolbar函数:
+
 ```kotlin
 /**
  * 头部使用Toolbar
@@ -186,8 +262,9 @@ BottomDialog.builder(this) {
 }
 ```
 
-3. 自定义列表内容布局 可继承`ListAdapterBuilder`快速实现。
+#### 3. 自定义列表内容布局
 
+可继承`ListAdapterBuilder`快速实现。
 
 > 可指定`layoutManager`
 
@@ -256,9 +333,9 @@ BottomDialog.builder(this) {
 ```
 
 
-### 更多介绍
+### 更多
 
-1. 更新布局
+#### 1. show()过后如何更新布局？
 
 此时比如更新message内容(内容布局类型为MessageContentBuilder)
 
@@ -269,7 +346,7 @@ dialog.updateContent<MessageContentBuilder> {
 }
 ```
 
-2. 属性委托相关
+#### 2. 属性委托相关
 
 当属性被委托后，改变值即可通知`ContentBuilder`的`updateContent(type: Int, data: Any?)`
 
@@ -319,3 +396,4 @@ var title by listenToUpdate(title, this, 2)
 </CoordinatorLayout>
 ```
 
+详细内容请参考源码
