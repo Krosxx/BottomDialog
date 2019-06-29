@@ -83,14 +83,21 @@ BottomDialog.builder(this) {
 
 - 自定义列表
 
-加载应用列表
+加载应用列表，AppListBuilder 见下文自定义布局构造器
 
 ![](screenshots/s3.gif)
 
-自定义内容布局构造器：
+```kotlin
+ BottomDialog.builder(this) {
+     title("应用列表")
+     content(AppListBuilder(this@MainActivity) { _, p, i, l ->
+         toast("$p\n$i\n$l")
+     })
+     oneButton("取消")
+ }
+```
 
-
-### 自定义布局
+### 自定义布局构造器
 
 1. 三层布局均可继承`ContentBuilder`
 
