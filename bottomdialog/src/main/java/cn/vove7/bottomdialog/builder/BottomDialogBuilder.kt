@@ -215,7 +215,7 @@ fun BottomDialogBuilder.title(title: CharSequence?): BottomDialogBuilder {
  */
 fun BottomDialogBuilder.menu(menuResId: Int): BottomDialogBuilder {
     if (headerBuilder == null) {
-        headerBuilder = ToolbarHeader("NULL")
+        headerBuilder = ToolbarHeader()
     }
     if (headerBuilder is ToolbarHeader) {
         (headerBuilder as ToolbarHeader).apply {

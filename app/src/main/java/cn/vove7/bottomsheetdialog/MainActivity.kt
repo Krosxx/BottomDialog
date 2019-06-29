@@ -7,7 +7,9 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.BottomDialogActivity
+import cn.vove7.bottomdialog.ToolbarHeader
 import cn.vove7.bottomdialog.builder.*
+import cn.vove7.bottomdialog.toolbar
 import cn.vove7.bottomdialog.util.ObservableList
 import cn.vove7.bottomsheetdialog.builder.AppListBuilder
 import java.util.*
@@ -107,7 +109,25 @@ class MainActivity : AppCompatActivity() {
                     oneButton("Cancel")
                 }
             }
+            R.id.button_toolbar -> {
+
+                BottomDialog.builder(this) {
+                    header(ToolbarHeader()) {
+
+                    }
+                }
+                BottomDialog.builder(this) {
+                    toolbar {
+                        title = "Hello"
+                        navIconId = R.mipmap.ic_launcher
+                        onIconClick = {
+                            dialog.dismiss()
+                        }
+                    }
+                }
+            }
         }
+
     }
 
 
