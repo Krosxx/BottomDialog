@@ -1,8 +1,9 @@
+@file:Suppress("unused")
+
 package cn.vove7.bottomdialog.builder
 
 import android.content.Context
 import android.support.design.widget.BottomSheetBehavior.PEEK_HEIGHT_AUTO
-import android.support.v7.view.menu.ActionMenuItem
 import android.view.MenuItem
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.ToolbarHeader
@@ -242,18 +243,18 @@ fun BottomDialogBuilder.ensureHeaderIsToolbar() {
 /**
  * 设置简单菜单项
  * @receiver BottomDialogBuilder
- * @param menuItems List<MenuItem>
+ * @param menuResId Int 菜单资源
  * @param onClick Function1<MenuItem, Boolean>
  */
-fun BottomDialogBuilder.inflateMenu(menuRes:Int, onClick: (MenuItem) -> Boolean) {
+fun BottomDialogBuilder.inflateMenu(menuResId: Int, onClick: (MenuItem) -> Boolean) {
     ensureHeaderIsToolbar()
     (headerBuilder as ToolbarHeader).apply {
-        toolBar.inflateMenu(menuRes)
-        toolBar.setOnMenuItemClickListener(onClick)
+        menuRes = menuResId
+        onMenuItemClick = onClick
     }
 }
 
-fun BottomDialogBuilder.withCloseIcon(iconId: Int = R.drawable.ic_close) {
+fun BottomDialogBuilder.withCloseIcon() {
     inflateMenu(R.menu.menu_close_icon) {
         headerBuilder?.dialog?.dismiss()
         true

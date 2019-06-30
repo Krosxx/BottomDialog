@@ -1,5 +1,6 @@
 package cn.vove7.bottomdialog
 
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toolbar
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
@@ -37,6 +38,10 @@ class ToolbarHeader(title: CharSequence? = null) : ContentBuilder() {
 
     var onIconClick: OnClick? by listenToUpdate(null, this, type = 3)
 
+    var menuRes: Int? by listenToUpdate(null, this, type = 4)
+
+    var onMenuItemClick: ((MenuItem) -> Boolean)? = null
+
     override val layoutRes: Int = R.layout.header_toolbar
 
     lateinit var toolBar: Toolbar
@@ -67,6 +72,12 @@ class ToolbarHeader(title: CharSequence? = null) : ContentBuilder() {
             toolBar.setNavigationOnClickListener {
                 onIconClick?.invoke(dialog)
             }
+        }
+        if (type == -1 || type == 4) {
+            menuRes?.also {
+                toolBar.inflateMenu(it)
+            }
+            toolBar.setOnMenuItemClickListener(onMenuItemClick)
         }
     }
 
