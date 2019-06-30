@@ -18,7 +18,7 @@ abstract class ContentBuilder {
     /**
      * 底部布局资源
      */
-    internal abstract val layoutRes: Int
+    abstract val layoutRes: Int
     lateinit var dialog: BottomDialog
 
     abstract fun init(view: View)
