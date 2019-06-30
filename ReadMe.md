@@ -1,4 +1,4 @@
-
+[![](https://jitpack.io/v/Vove7/BottomDialog.svg)](https://jitpack.io/#Vove7/BottomDialog)
 
 # 1. BottomDialog
 
