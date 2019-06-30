@@ -77,6 +77,7 @@ class BottomDialog internal constructor(
 
     var navColor: Int? = builder.navBgColor
 
+    private val onDismiss: (() -> Unit)? = builder.onDismiss
     /**
      * 底部布局高度
      */
@@ -166,6 +167,10 @@ class BottomDialog internal constructor(
         //fix: 高度为MATCH_PARENT时，状态栏黑色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        }
+
+        onDismiss?.also {
+            setOnDismissListener { it() }
         }
     }
 

@@ -17,13 +17,15 @@ import cn.vove7.bottomdialog.util.ObservableList
  * 2019/6/29
  */
 @Suppress("unused")
-class BottomDialogBuilder(var context: Context) {
+open class BottomDialogBuilder(var context: Context) {
     var themeId: Int = R.style.BottomDialog
 
     /**
      * 头部布局
      */
     internal var headerBuilder: ContentBuilder? = null
+
+    internal var onDismiss: (() -> Unit)? = null
 
     /**
      * 内容布局
@@ -64,6 +66,10 @@ class BottomDialogBuilder(var context: Context) {
 
     fun theme(tId: Int) {
         themeId = tId
+    }
+
+    fun onDismiss(l: () -> Unit) {
+        onDismiss = l
     }
 
     /**
