@@ -52,17 +52,19 @@ class BottomDialog internal constructor(
     /**
      * 头部布局
      */
-    internal var headerBuilder: ContentBuilder? = builder.headerBuilder
-
+    var headerBuilder: ContentBuilder? = builder.headerBuilder
+        private set
     /**
      * 内容布局
      */
-    internal var contentBuilder: ContentBuilder? = builder.contentBuilder
+    var contentBuilder: ContentBuilder? = builder.contentBuilder
+        private set
 
     /**
      * 底部布局（悬浮）
      */
-    internal var footerBuilder: ContentBuilder? = builder.footerBuilder
+    var footerBuilder: ContentBuilder? = builder.footerBuilder
+        private set
 
     private var peekHeight: Int = builder.peekHeight
 
@@ -186,6 +188,15 @@ class BottomDialog internal constructor(
             resources.getDimensionPixelSize(resourceId)
         } else 0
 
+    }
+
+    /**
+     * 用于获取各种属性
+     * @param action [@kotlin.ExtensionFunctionType] Function1<BottomDialog, T>
+     * @return T
+     */
+    fun <T> get(action: BottomDialog.() -> T): T {
+        return with(this, action)
     }
 
     private val NAVIGATION = "navigationBarBackground"
