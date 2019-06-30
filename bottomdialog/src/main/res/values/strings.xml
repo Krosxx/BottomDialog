@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">bottomdialog</string>
+    <string name="close">关闭</string>
 </resources>

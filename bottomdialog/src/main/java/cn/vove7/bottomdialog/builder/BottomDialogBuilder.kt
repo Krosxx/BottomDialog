@@ -2,6 +2,8 @@ package cn.vove7.bottomdialog.builder
 
 import android.content.Context
 import android.support.design.widget.BottomSheetBehavior.PEEK_HEIGHT_AUTO
+import android.support.v7.view.menu.ActionMenuItem
+import android.view.MenuItem
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.ToolbarHeader
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
@@ -225,4 +227,35 @@ fun BottomDialogBuilder.menu(menuResId: Int): BottomDialogBuilder {
         throw RuntimeException("此方法 必须设置 headerBuilder 为 ToolbarHeader")
     }
     return this
+}
+
+fun BottomDialogBuilder.ensureHeaderIsToolbar() {
+
+    if (headerBuilder == null) {
+        headerBuilder = ToolbarHeader()
+    }
+    if (headerBuilder !is ToolbarHeader) {
+        throw RuntimeException("此方法 必须设置 headerBuilder 为 ToolbarHeader")
+    }
+}
+
+/**
+ * 设置简单菜单项
+ * @receiver BottomDialogBuilder
+ * @param menuItems List<MenuItem>
+ * @param onClick Function1<MenuItem, Boolean>
+ */
+fun BottomDialogBuilder.inflateMenu(menuRes:Int, onClick: (MenuItem) -> Boolean) {
+    ensureHeaderIsToolbar()
+    (headerBuilder as ToolbarHeader).apply {
+        toolBar.inflateMenu(menuRes)
+        toolBar.setOnMenuItemClickListener(onClick)
+    }
+}
+
+fun BottomDialogBuilder.withCloseIcon(iconId: Int = R.drawable.ic_close) {
+    inflateMenu(R.menu.menu_close_icon) {
+        headerBuilder?.dialog?.dismiss()
+        true
+    }
 }
