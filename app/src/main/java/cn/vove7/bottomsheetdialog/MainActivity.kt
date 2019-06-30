@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             R.id.button_message -> {
                 BottomDialog.builder(this) {
                     title("Hello")
+                    cancelable(false)
+                    withCloseIcon()
                     message(
                             buildString {
                                 for (i in 0..30) {
@@ -110,16 +112,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.button_toolbar -> {
-
-                BottomDialog.builder(this) {
-                    header(ToolbarHeader()) {
-
-                    }
-                }
                 BottomDialog.builder(this) {
                     toolbar {
                         title = "Hello"
-                        navIconId = R.mipmap.ic_launcher
+                        navIconId = R.drawable.ic_close
                         onIconClick = {
                             dialog.dismiss()
                         }

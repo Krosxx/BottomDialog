@@ -45,6 +45,7 @@ class BehaviorController(view: View, lis: StatusCallback) {
     }
 
     fun hide() {
+        isHideable = true
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 

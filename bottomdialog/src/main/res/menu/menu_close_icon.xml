@@ -6,5 +6,6 @@
         android:id="@+id/menu_item_close"
         android:icon="@drawable/ic_close"
         android:title="@string/close"
+        android:showAsAction="always"
         app:showAsAction="always" />
 </menu>

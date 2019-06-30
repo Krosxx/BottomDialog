@@ -122,9 +122,9 @@ class BottomDialog internal constructor(
      */
     private fun buildContent() {
         behaviorController = BehaviorController(findViewById(R.id.bs_root), lis)
-        behaviorController.isHideable = mCancelable
         behaviorController.peekHeight = peekHeight
         behaviorController.hide()
+        behaviorController.isHideable = mCancelable
 
         findViewById<ViewGroup>(R.id.root).setOnClickListener {
             if (mCancelable) cancel()
