@@ -21,7 +21,18 @@ abstract class ContentBuilder {
     abstract val layoutRes: Int
     lateinit var dialog: BottomDialog
 
+
     abstract fun init(view: View)
+
+    private var afterShow: (() -> Unit)? = null
+
+    /**
+     * 用于 初始化视图
+     * @param action Function0<Unit>
+     */
+    fun afterShow(action: () -> Unit) {
+        afterShow = action
+    }
 
     fun build(context: Context, dialog: BottomDialog): View {
         this.dialog = dialog
@@ -31,6 +42,7 @@ abstract class ContentBuilder {
             contentView = LayoutInflater.from(context).inflate(layoutRes, null, false)
             init(contentView)
             updateContent(-1)
+            afterShow?.invoke()
         }
 
         return contentView
