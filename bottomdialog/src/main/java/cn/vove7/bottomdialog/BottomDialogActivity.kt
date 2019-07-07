@@ -70,7 +70,7 @@ class BottomDialogActivity : AppCompatActivity() {
         try {
             dialog = BottomDialog(dialogArray?.get(dialogTag)!!.also { it.context = this@BottomDialogActivity })
         } catch (e: Exception) {
-            throw Exception("出现意外：\n(1) 请使用 BottomDialog.activity 创建BottomDialogActivity")
+            finishAndRemoveTask()
         }
         dialog.setOnDismissListener {
             finish()

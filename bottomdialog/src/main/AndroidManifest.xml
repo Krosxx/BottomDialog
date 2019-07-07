@@ -4,6 +4,7 @@
     <application>
         <activity
             android:name=".BottomDialogActivity"
+            android:excludeFromRecents="true"
             android:theme="@style/BottomDialogActivity" />
     </application>
 </manifest>
