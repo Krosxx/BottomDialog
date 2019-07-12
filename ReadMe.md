@@ -1,6 +1,6 @@
 [![](https://jitpack.io/v/Vove7/BottomDialog.svg)](https://jitpack.io/#Vove7/BottomDialog)
 
-# 1. BottomDialog
+# BottomDialog
 
 > 心水[纯纯写作](https://www.coolapk.com/apk/com.drakeet.purewriter)很久的底部对话框样式，同时在Google Play Store 也见到过此样式，不过经过多次问询，没得到想要的结果。只好自己动手实现。
 
