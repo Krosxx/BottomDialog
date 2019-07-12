@@ -20,7 +20,8 @@
   - [1. 三层布局构造器](#1.-定义三层布局构造器)
   - [2. 设置扩展函数](#2.-设置扩展函数)
   - [3. 自定义列表内容布局](#3.-自定义列表内容布局)
-- [更多](#更多)
+- [扩展](#扩展)
+- [Faqs](#Faqs)
   - [1. show()过后如何更新布局？](#1.-show()过后如何更新布局？)
   - [2. 属性委托相关](#2.-属性委托相关)
 - [实现原理](#实现原理)
@@ -127,12 +128,17 @@ allprojects {
 ```
 
 2. 添加依赖
+
+- BottomDialog
+
 ```groovy
 dependencies {
     implementation 'com.github.Vove7:BottomDialog:1.0'
 }
 ```
 
+- Extension扩展包
+TODO
 
 ### 自定义布局构造器
 
@@ -333,7 +339,18 @@ BottomDialog.builder(this) {
 ```
 
 
-### 更多
+### 扩展
+
+实现的更多的ContentBuilder
+
+[详见模块Extension](extension/ReadMe.md)
+
+- 仿一加系统分享对话框效果
+[AwesomeHeader]
+![](screenshots/s4.gif)
+
+
+### Faqs
 
 #### 1. show()过后如何更新布局？
 

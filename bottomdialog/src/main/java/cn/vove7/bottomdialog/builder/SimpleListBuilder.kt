@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_simple_list.view.*
 class SimpleListBuilder(
         items: ObservableList<String?>,
         autoDismiss: Boolean = true,
-        onItemClick: OnItemClick<String?>
+        onItemClick: OnItemClick<String?>?
 ) : ListAdapterBuilder<String?>(items, autoDismiss, onItemClick) {
 
     override val itemView: (type: Int) -> Int = { R.layout.item_simple_list }

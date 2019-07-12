@@ -37,7 +37,7 @@ class BehaviorController(view: View, lis: StatusCallback) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> lis.onHidden()
                     BottomSheetBehavior.STATE_EXPANDED -> lis.onExpand()
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> lis.onHalfExpand()
+                    BottomSheetBehavior.STATE_COLLAPSED -> lis.onCollapsed()
                 }
             }
 
@@ -49,8 +49,8 @@ class BehaviorController(view: View, lis: StatusCallback) {
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    fun halfExpand() {
-        behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+    fun collapsed() {
+        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     fun expand() {
@@ -62,6 +62,6 @@ class BehaviorController(view: View, lis: StatusCallback) {
 interface StatusCallback {
     fun onHidden() {}
     fun onExpand() {}
-    fun onHalfExpand() {}
+    fun onCollapsed() {}
     fun onSlide(slideOffset: Float)
 }

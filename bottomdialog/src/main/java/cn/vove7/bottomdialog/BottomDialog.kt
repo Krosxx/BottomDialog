@@ -6,6 +6,8 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.NestedScrollView
 import android.util.DisplayMetrics
 import android.view.View
@@ -45,6 +47,8 @@ class BottomDialog internal constructor(
         }
     }
 
+    internal val headerElevation = builder.headerElevation
+
     val activity: Activity = builder.context as Activity
 
     private val expand: Boolean = builder.expand
@@ -66,10 +70,17 @@ class BottomDialog internal constructor(
     var footerBuilder: ContentBuilder? = builder.footerBuilder
         private set
 
+
+    /**
+     * 沉浸状态栏
+     */
+    var immersionStatusBar = false
+
     private var peekHeight: Int = builder.peekHeight
 
-    private val headerView: ViewGroup get() = findViewById(R.id.header_container)
-    private val footerView: ViewGroup get() = findViewById(R.id.footer_contains)
+    val headerView: ViewGroup get() = findViewById(R.id.header_container)
+    val footerView: ViewGroup get() = findViewById(R.id.footer_contains)
+    val contentView: ViewGroup get() = findViewById(R.id.content)
 
     private lateinit var behaviorController: BehaviorController
 
@@ -90,8 +101,23 @@ class BottomDialog internal constructor(
         buildContent()
     }
 
+    val stateBarHeight: Int
+        get() {
+            var result = 0
+            val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                result = context.resources.getDimensionPixelSize(resourceId)
+            }
+            return result
+        }
+
+    lateinit var statusCallbacks: MutableList<StatusCallback>
+
     private val lis: StatusCallback = object : StatusCallback {
         override fun onSlide(slideOffset: Float) {
+            if (this@BottomDialog::statusCallbacks.isInitialized) {
+                statusCallbacks.forEach { it.onSlide(slideOffset) }
+            }
             footerBuilder ?: return
             if (slideOffset < 0) {
                 footerView.scrollY = (slideOffset * bottomHeight).toInt()
@@ -100,13 +126,40 @@ class BottomDialog internal constructor(
             }
         }
 
+        override fun onExpand() {
+            if (this@BottomDialog::statusCallbacks.isInitialized) {
+                statusCallbacks.forEach { it.onExpand() }
+            }
+        }
+
+        override fun onCollapsed() {
+            if (this@BottomDialog::statusCallbacks.isInitialized) {
+                statusCallbacks.forEach { it.onCollapsed() }
+            }
+        }
+
         override fun onHidden() {
+            if (this@BottomDialog::statusCallbacks.isInitialized) {
+                statusCallbacks.forEach { it.onHidden() }
+            }
             sDismiss()
         }
     }
 
     private fun sDismiss() {
         super.dismiss()
+        if (::statusCallbacks.isInitialized) {
+            statusCallbacks.clear()
+        }
+    }
+
+
+    @Synchronized
+    fun listenStatus(lis: StatusCallback) {
+        if (!::statusCallbacks.isInitialized) {
+            statusCallbacks = mutableListOf()
+        }
+        statusCallbacks.add(lis)
     }
 
     override fun setCancelable(flag: Boolean) {
@@ -118,20 +171,22 @@ class BottomDialog internal constructor(
         behaviorController.hide()
     }
 
+    val bsView get() = findViewById<View>(R.id.bs_root)
+
+
     /**
      * 使用ContentBuilder构建布局
      */
     private fun buildContent() {
-        behaviorController = BehaviorController(findViewById(R.id.bs_root), lis)
-        behaviorController.peekHeight = peekHeight
+        behaviorController = BehaviorController(bsView, lis)
         behaviorController.hide()
+        behaviorController.peekHeight = peekHeight
         behaviorController.isHideable = mCancelable
 
-        findViewById<ViewGroup>(R.id.root).setOnClickListener {
+        val rootView = findViewById<ViewGroup>(R.id.root)
+        rootView.setOnClickListener {
             if (mCancelable) cancel()
         }
-
-        val contentView = findViewById<ViewGroup>(R.id.content)
 
         headerBuilder?.apply {
             headerView.addView(build(context, this@BottomDialog))
@@ -172,15 +227,42 @@ class BottomDialog internal constructor(
         onDismiss?.also {
             setOnDismissListener { it() }
         }
+
+        val tag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+        val sf = findViewById<View>(R.id.statusbar_fill)
+        if (immersionStatusBar) {
+            sf.visibility = View.GONE
+        } else {//状态栏高度
+            sf.layoutParams = sf.layoutParams.also { it.height = stateBarHeight }
+        }
+
+        rootView.systemUiVisibility = tag
+
+
     }
+
+
+    //是否已有阴影
+    var hasAppbarElevation = false
 
     private fun setContentMarginBottom(value: Int) {
         val container = this@BottomDialog.findViewById<NestedScrollView>(R.id.container)
-        container.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT).also { p ->
+        //阴影
+        if (headerElevation) {
+            val appbarLayout = findViewById<AppBarLayout>(R.id.appbar_lay)
+            container.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+                if (scrollY == 0 && hasAppbarElevation) {
+                    hasAppbarElevation = false
+                    appbarLayout.elevation = 0f
+                } else if (!hasAppbarElevation) {
+                    hasAppbarElevation = true
+                    appbarLayout.elevation = 10f
+                }
+            }
+        }
+        container.layoutParams = (container.layoutParams as LinearLayout.LayoutParams).also { p ->
             p.setMargins(0, 0, 0, value)
-            container.layoutParams = p
         }
 
     }
@@ -203,8 +285,6 @@ class BottomDialog internal constructor(
     fun <T> get(action: BottomDialog.() -> T): T {
         return with(this, action)
     }
-
-    private val NAVIGATION = "navigationBarBackground"
 
     /**
      * 判断是否有NavigationBar
@@ -248,8 +328,17 @@ class BottomDialog internal constructor(
             setPadding(0, 0, 0, 0)
         }
         window?.navigationBarColor = Color.parseColor("#000000")
+
+        if (activity is BottomDialogActivity) {
+            showInternal()
+        } else {
+            Handler().postDelayed({ showInternal() }, 1)
+        }
+    }
+
+    private fun showInternal() {
         if (expand) behaviorController.expand()
-        else behaviorController.halfExpand()
+        else behaviorController.collapsed()
     }
 
     /**
@@ -275,7 +364,7 @@ class BottomDialog internal constructor(
     }
 
     fun halfExpand() {
-        behaviorController.halfExpand()
+        behaviorController.collapsed()
     }
 }
 

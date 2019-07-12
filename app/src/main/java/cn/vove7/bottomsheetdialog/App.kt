@@ -12,13 +12,13 @@ class App : Application() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }
-        refWatcher = LeakCanary.install(this)
+//        refWatcher = LeakCanary.install(this)
     }
 
     companion object {
         private lateinit var refWatcher: RefWatcher
         fun watch(obj: Any) {
-            refWatcher.watch(obj)
+//            refWatcher.watch(obj)
         }
 
     }

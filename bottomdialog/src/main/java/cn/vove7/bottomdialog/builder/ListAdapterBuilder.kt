@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.content_list.view.*
 abstract class ListAdapterBuilder<T>(
         items: ObservableList<T>,
         autoDismiss: Boolean = true,
-        onItemClick: OnItemClick<T>
+        onItemClick: OnItemClick<T>?
 ) : ContentBuilder() {
 
     /**
@@ -80,7 +80,7 @@ abstract class ListAdapterBuilder<T>(
         loadingBar = view.loading_bar
 
         if (loading) loadingBar.fadeIn()
-        else loadingBar.fadeOut(endStatus = View.INVISIBLE)
+        else loadingBar.visibility = View.INVISIBLE
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -113,7 +113,7 @@ typealias BindView<T> = (itemView: View, item: T) -> Unit
 class ListAdapter<T>(
         context: Context,
         private val items: MutableList<T>,
-        private val onItemClick: OnItemClick<T>,
+        private val onItemClick: OnItemClick<T>?,
         private val autoDismiss: Boolean,
         private val dialog: Dialog,
         val itemView: (Int) -> Int,
@@ -139,11 +139,11 @@ class ListAdapter<T>(
         bindView(v.itemView, items[pos])
         v.itemView.apply {
             setOnClickListener {
-                onItemClick.invoke(dialog, v.adapterPosition, items[v.adapterPosition], false)
+                onItemClick?.invoke(dialog, v.adapterPosition, items[v.adapterPosition], false)
                 if (autoDismiss) dialog.dismiss()
             }
             setOnLongClickListener {
-                onItemClick.invoke(dialog, v.adapterPosition, items[v.adapterPosition], true)
+                onItemClick?.invoke(dialog, v.adapterPosition, items[v.adapterPosition], true)
                 true
             }
         }

@@ -1,1 +1,2 @@
 include ':app', ':bottomdialog'
+include ':extension'

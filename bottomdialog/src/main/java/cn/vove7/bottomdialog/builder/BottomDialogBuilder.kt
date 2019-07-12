@@ -3,6 +3,7 @@
 package cn.vove7.bottomdialog.builder
 
 import android.content.Context
+import android.graphics.Color
 import android.support.design.widget.BottomSheetBehavior.PEEK_HEIGHT_AUTO
 import android.view.MenuItem
 import cn.vove7.bottomdialog.R
@@ -28,6 +29,11 @@ open class BottomDialogBuilder(var context: Context) {
     internal var onDismiss: (() -> Unit)? = null
 
     /**
+     * 内容滚动 header阴影
+     */
+    var headerElevation = true
+
+    /**
      * 内容布局
      */
     internal var contentBuilder: ContentBuilder? = null
@@ -40,6 +46,8 @@ open class BottomDialogBuilder(var context: Context) {
     var expand: Boolean = false
 
     var mCancelable = true
+
+    var backgroundColor: Int = Color.parseColor("#FDFDFE")
 
     /**
      * 导航栏背景色(若存在导航栏)
@@ -167,7 +175,11 @@ fun BottomDialogBuilder.message(text: String, selectable: Boolean = false): Bott
  * @param onItemClick Function3<[@kotlin.ParameterName] Dialog, [@kotlin.ParameterName] Int, [@kotlin.ParameterName] String?, Unit>
  * @return BottomDialogBuilder
  */
-fun BottomDialogBuilder.simpleList(items: List<String?>, autoDismiss: Boolean = true, onItemClick: OnItemClick<String?>): BottomDialogBuilder {
+fun BottomDialogBuilder.simpleList(
+        items: List<String?>,
+        autoDismiss: Boolean = true,
+        onItemClick: OnItemClick<String?>? = null
+): BottomDialogBuilder {
     contentBuilder = SimpleListBuilder(
             if (items is ObservableList<String?>) items
             else ObservableList(items.toMutableList()),

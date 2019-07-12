@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import cn.vove7.bottomdialog.BottomDialog
+import cn.vove7.bottomdialog.StatusCallback
 
 /**
  * # ContentBuilder
@@ -46,6 +47,10 @@ abstract class ContentBuilder {
         }
 
         return contentView
+    }
+
+    fun listenStatus(lis:StatusCallback) {
+        dialog.listenStatus(lis)
     }
 
     /**

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/trans"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/fill_layout"
+        android:layout_width="match_parent"
+        android:background="@color/trans"
+        android:gravity="bottom"
+        android:layout_height="40dp">
+
+        <View
+            android:id="@+id/fill_view"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:background="#fff"
+            android:layout_height="0dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/hide_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_dialog_bg">
+
+        <TextView
+            android:id="@+id/little_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="分享到" />
+
+        <LinearLayout
+            android:id="@+id/title_lay"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:visibility="invisible"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/close_btn"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_close"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:text="分享"
+                android:layout_marginLeft="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
