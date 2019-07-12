@@ -35,10 +35,11 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
 
+//    implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1'
+//    implementation 'com.github.Vove7.BottomDialog:extension:2.1'
+
     implementation project(':bottomdialog')
     implementation project(':extension')
-
-//    implementation 'com.github.Vove7:BottomDialog:1.0'
 }
 repositories {
     maven { url 'https://jitpack.io' }

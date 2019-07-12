@@ -4,8 +4,9 @@ package cn.vove7.bottomdialog.builder
 
 import android.content.Context
 import android.graphics.Color
-import android.support.design.widget.BottomSheetBehavior.PEEK_HEIGHT_AUTO
+import android.util.DisplayMetrics
 import android.view.MenuItem
+import android.view.WindowManager
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.ToolbarHeader
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
@@ -54,7 +55,11 @@ open class BottomDialogBuilder(var context: Context) {
      */
     var navBgColor: Int? = null
 
-    var peekHeight: Int = PEEK_HEIGHT_AUTO
+    var peekHeight: Int = {
+        val out = DisplayMetrics()
+        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(out)
+        (out.heightPixels * 0.55).toInt()
+    }()
 
     fun peekHeight(peekHeight: Int) {
         this.peekHeight = peekHeight
