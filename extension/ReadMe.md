@@ -3,7 +3,7 @@
 
 - 一加对话框效果[AwesomeHeader]
 
-![](./screenshots/s4.gif)
+![](/screenshots/s4.gif)
 
 ```kotlin
 BottomDialog.builder(this) {

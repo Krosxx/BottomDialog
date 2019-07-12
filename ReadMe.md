@@ -15,12 +15,12 @@
   - [简单标题文字](#简单标题文字)
   - [简单列表](#简单列表)
   - [自定义列表](#自定义列表)
+- [扩展](#扩展)
 - [引入BottomDialog](#引入BottomDialog)
 - [自定义布局构造器](#自定义布局构造器)
   - [1. 三层布局构造器](#1.-定义三层布局构造器)
   - [2. 设置扩展函数](#2.-设置扩展函数)
   - [3. 自定义列表内容布局](#3.-自定义列表内容布局)
-- [扩展](#扩展)
 - [Faqs](#Faqs)
   - [1. show()过后如何更新布局？](#1.-show()过后如何更新布局？)
   - [2. 属性委托相关](#2.-属性委托相关)
@@ -115,6 +115,19 @@ BottomDialog.builder(this) {
  }
 ```
 
+
+### 扩展
+
+实现的更多的ContentBuilder
+
+[详见模块Extension](extension/ReadMe.md)
+
+- 仿一加系统分享对话框效果
+[AwesomeHeader]
+
+![](screenshots/s4.gif)
+
+
 ### 引入BottomDialog
 
 1. 在工程`build.gradle`添加  
@@ -133,12 +146,17 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.Vove7:BottomDialog:1.0'
+	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.0'
 }
 ```
 
-- Extension扩展包
-TODO
+- 扩展包(可选)
+
+```groovy
+dependencies {
+	implementation 'com.github.Vove7.BottomDialog:extension:2.0'
+}
+```
 
 ### 自定义布局构造器
 
@@ -337,17 +355,6 @@ BottomDialog.builder(this) {
     oneButton("取消")
 }
 ```
-
-
-### 扩展
-
-实现的更多的ContentBuilder
-
-[详见模块Extension](extension/ReadMe.md)
-
-- 仿一加系统分享对话框效果
-[AwesomeHeader]
-![](screenshots/s4.gif)
 
 
 ### Faqs
