@@ -181,7 +181,6 @@ class BottomDialog internal constructor(
         behaviorController = BehaviorController(bsView, lis)
         behaviorController.hide()
         behaviorController.peekHeight = peekHeight
-        behaviorController.isHideable = mCancelable
 
         val rootView = findViewById<ViewGroup>(R.id.root)
         rootView.setOnClickListener {
@@ -339,6 +338,8 @@ class BottomDialog internal constructor(
     private fun showInternal() {
         if (expand) behaviorController.expand()
         else behaviorController.collapsed()
+
+        behaviorController.isHideable = mCancelable
     }
 
     /**
