@@ -150,6 +150,9 @@ allprojects {
 ```groovy
 dependencies {
 	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1'
+	
+	//android x 使用依赖：
+	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1-x'
 }
 ```
 
@@ -158,6 +161,9 @@ dependencies {
 ```groovy
 dependencies {
 	implementation 'com.github.Vove7.BottomDialog:extension:2.1'
+	
+	//android x 使用依赖：
+	implementation 'com.github.Vove7.BottomDialog:extension:2.1-x'
 }
 ```
 
