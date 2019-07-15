@@ -7,8 +7,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.AppBarLayout
-import android.support.v4.widget.NestedScrollView
+import androidx.core.widget.NestedScrollView
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import com.google.android.material.appbar.AppBarLayout
 
 
 /**

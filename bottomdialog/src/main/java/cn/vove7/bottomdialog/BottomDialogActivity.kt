@@ -3,8 +3,8 @@ package cn.vove7.bottomdialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
+import androidx.appcompat.app.AppCompatActivity
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 
 /**

@@ -2,12 +2,12 @@ package cn.vove7.bottomdialog.builder
 
 import android.app.Dialog
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.*

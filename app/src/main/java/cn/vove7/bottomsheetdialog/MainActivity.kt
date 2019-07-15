@@ -6,13 +6,13 @@ import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.BottomDialogActivity
 import cn.vove7.bottomdialog.builder.*

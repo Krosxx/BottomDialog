@@ -1,7 +1,8 @@
 package cn.vove7.bottomdialog
 
-import android.support.design.widget.BottomSheetBehavior
 import android.view.View
+import androidx.annotation.IntDef
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 /**
  * # BehaviorController

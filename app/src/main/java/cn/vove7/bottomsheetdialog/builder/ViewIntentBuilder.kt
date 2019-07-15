@@ -2,9 +2,9 @@ package cn.vove7.bottomsheetdialog.builder
 
 import android.content.Intent
 import android.content.pm.ResolveInfo
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cn.vove7.bottomdialog.builder.BindView
 import cn.vove7.bottomdialog.builder.ListAdapterBuilder
 import cn.vove7.bottomdialog.builder.OnItemClick
