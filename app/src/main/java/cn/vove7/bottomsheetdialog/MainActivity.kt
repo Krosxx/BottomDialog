@@ -20,6 +20,7 @@ import cn.vove7.bottomdialog.toolbar
 import cn.vove7.bottomdialog.util.ObservableList
 import cn.vove7.bottomdoalog.extension.awesomeHeader
 import cn.vove7.bottomsheetdialog.builder.AppListBuilder
+import cn.vove7.bottomsheetdialog.builder.MarkdownContentBuilder
 import cn.vove7.bottomsheetdialog.builder.ViewIntentBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -42,7 +43,8 @@ class MainActivity : AppCompatActivity() {
                 "Toolbar",
                 "Awesome Header Dialog",
                 "Delay Show ActivityDialog",
-                "Awesome Share"
+                "Awesome Share",
+                "Markdown Dialog"
         )
         list_view.adapter = object : BaseAdapter() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -194,6 +196,16 @@ class MainActivity : AppCompatActivity() {
                         startActivity(intentFilter)
                     })
                 }
+            }
+            9 -> {
+                BottomDialog.builder(this) {
+                    awesomeHeader("介绍")
+
+                    content(MarkdownContentBuilder()) {
+                        loadMarkdownFromAsset("intro.md")
+                    }
+                }
+
             }
         }
 

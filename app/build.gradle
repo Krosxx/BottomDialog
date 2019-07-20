@@ -38,6 +38,8 @@ dependencies {
 //    implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1'
 //    implementation 'com.github.Vove7.BottomDialog:extension:2.1'
 
+    implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
+
     implementation project(':bottomdialog')
     implementation project(':extension')
 }
