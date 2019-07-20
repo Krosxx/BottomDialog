@@ -41,7 +41,6 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:background="@color/color_dialog_bg"
-            android:fillViewport="true"
             android:layout_height="match_parent">
 
             <FrameLayout
