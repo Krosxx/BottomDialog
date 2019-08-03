@@ -18,7 +18,7 @@ import cn.vove7.bottomdialog.BottomDialogActivity
 import cn.vove7.bottomdialog.builder.*
 import cn.vove7.bottomdialog.toolbar
 import cn.vove7.bottomdialog.util.ObservableList
-import cn.vove7.bottomdoalog.extension.awesomeHeader
+import cn.vove7.bottomdialog.extension.awesomeHeader
 import cn.vove7.bottomsheetdialog.builder.AppListBuilder
 import cn.vove7.bottomsheetdialog.builder.MarkdownContentBuilder
 import cn.vove7.bottomsheetdialog.builder.ViewIntentBuilder
