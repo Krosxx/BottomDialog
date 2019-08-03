@@ -1,4 +1,4 @@
-package cn.vove7.bottomdoalog.extension
+package cn.vove7.bottomdialog.extension
 
 import android.animation.Animator
 import android.animation.ValueAnimator

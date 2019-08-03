@@ -1,4 +1,4 @@
-package cn.vove7.bottomdoalog.extension
+package cn.vove7.bottomdialog.extension
 
 import org.junit.Test
 
