@@ -171,7 +171,9 @@ class MainActivity : AppCompatActivity() {
             6 -> {
                 BottomDialog.builder(this) {
                     awesomeHeader("分享到")
-
+                    message(buildString {
+                        for(i in 0..100) append(i)
+                    })
                 }
             }
             7 -> {

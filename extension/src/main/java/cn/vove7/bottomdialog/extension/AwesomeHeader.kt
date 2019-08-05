@@ -14,7 +14,7 @@ import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.fadeIn
 import cn.vove7.bottomdialog.util.fadeOut
 import cn.vove7.bottomdialog.util.listenToUpdate
-import kotlinx.android.synthetic.main.header_awsome.view.*
+import kotlinx.android.synthetic.main.header_awesome.view.*
 
 
 fun BottomDialogBuilder.awesomeHeader(title: String) {
@@ -31,7 +31,7 @@ fun BottomDialogBuilder.awesomeHeader(title: String) {
  */
 class AwesomeHeader : ContentBuilder(), StatusCallback {
     override val layoutRes: Int
-        get() = R.layout.header_awsome
+        get() = R.layout.header_awesome
 
     var title: String? by listenToUpdate(null, this)
 
