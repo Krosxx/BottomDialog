@@ -2,6 +2,7 @@ package cn.vove7.bottomdialog
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
@@ -70,7 +71,9 @@ class BottomDialogActivity : AppCompatActivity() {
         try {
             dialog = BottomDialog(dialogArray?.get(dialogTag)!!.also { it.context = this@BottomDialogActivity })
         } catch (e: Exception) {
-            finishAndRemoveTask()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAndRemoveTask()
+            } else finish()
         }
         dialog.setOnDismissListener {
             finish()
