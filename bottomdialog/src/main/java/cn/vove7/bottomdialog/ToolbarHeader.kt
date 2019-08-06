@@ -2,7 +2,7 @@ package cn.vove7.bottomdialog
 
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toolbar
+import android.support.v7.widget.Toolbar
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.builder.OnClick
 import cn.vove7.bottomdialog.interfaces.ContentBuilder

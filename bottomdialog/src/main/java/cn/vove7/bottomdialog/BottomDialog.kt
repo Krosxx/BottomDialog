@@ -227,7 +227,10 @@ class BottomDialog internal constructor(
             setOnDismissListener { it() }
         }
 
-        val tag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            val tag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            rootView.systemUiVisibility = tag
+        }
 
         val sf = findViewById<View>(R.id.statusbar_fill)
         if (immersionStatusBar) {
@@ -236,27 +239,27 @@ class BottomDialog internal constructor(
             sf.layoutParams = sf.layoutParams.also { it.height = stateBarHeight }
         }
 
-        rootView.systemUiVisibility = tag
-
 
     }
 
 
     //是否已有阴影
-    var hasAppbarElevation = false
+    private var hasAppbarElevation = false
 
     private fun setContentMarginBottom(value: Int) {
         val container = this@BottomDialog.findViewById<NestedScrollView>(R.id.container)
         //阴影
         if (headerElevation) {
             val appbarLayout = findViewById<AppBarLayout>(R.id.appbar_lay)
-            container.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-                if (scrollY == 0 && hasAppbarElevation) {
-                    hasAppbarElevation = false
-                    appbarLayout.elevation = 0f
-                } else if (!hasAppbarElevation) {
-                    hasAppbarElevation = true
-                    appbarLayout.elevation = 10f
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                container.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+                    if (scrollY == 0 && hasAppbarElevation) {
+                        hasAppbarElevation = false
+                        appbarLayout.elevation = 0f
+                    } else if (!hasAppbarElevation) {
+                        hasAppbarElevation = true
+                        appbarLayout.elevation = 10f
+                    }
                 }
             }
         }
@@ -326,8 +329,9 @@ class BottomDialog internal constructor(
         window?.decorView?.apply {
             setPadding(0, 0, 0, 0)
         }
-        window?.navigationBarColor = Color.parseColor("#000000")
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window?.navigationBarColor = Color.parseColor("#000000")
+        }
         if (activity is BottomDialogActivity) {
             showInternal()
         } else {
