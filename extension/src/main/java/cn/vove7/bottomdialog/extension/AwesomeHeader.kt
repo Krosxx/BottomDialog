@@ -49,7 +49,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         filllay = view.fill_layout
         titleLay = view.title_lay
         filllay.layoutParams = filllay.layoutParams.also {
-            it.height = dialog.stateBarHeight + 27
+            it.height = dialog.stateBarHeight + 50
         }
         dialog.immersionStatusBar = true
         littleTitle = view.little_title
@@ -62,20 +62,23 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
 
 
     var status = 0
+    var lastOff = 0f
+
     override fun onSlide(slideOffset: Float) {
-        if (slideOffset >= 0.95f && status != 1) {
+        if (slideOffset >= 0.99f && (lastOff < slideOffset) && status != 1) {
             status = 1
             littleTitle.fadeOut(400, endStatus = View.INVISIBLE)
             titleLay.fadeIn(400)
             fill()
             setStatusbarColor()
-        } else if (slideOffset < 0.8f && status != 0) {
+        } else if (slideOffset < 0.99f && (lastOff > slideOffset) && status != 0) {
             status = 0
             littleTitle.fadeIn(400)
             titleLay.fadeOut(400, endStatus = View.INVISIBLE)
             unFill()
             setStatusbarColor()
         }
+        lastOff = slideOffset
     }
 
     fun fill() {
