@@ -1,13 +1,10 @@
-[![](https://jitpack.io/v/Vove7/BottomDialog.svg)](https://jitpack.io/#Vove7/BottomDialog)
 
-# BottomDialog
+# 1. BottomDialog
 
 > 心水[纯纯写作](https://www.coolapk.com/apk/com.drakeet.purewriter)很久的底部对话框样式，同时在Google Play Store 也见到过此样式，不过经过多次问询，没得到想要的结果。只好自己动手实现。
 
 > 使用BottomSheet，支持滚动布局，同时底部布局不会因BottomSheet未显示全部内容而隐藏。
-
-![](screenshots/s0.jpg)
-
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190709155536132.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5,size_16,color_FFFFFF,t_70)
 ### 目录
 
 - [特性](#特性)
@@ -15,13 +12,12 @@
   - [简单标题文字](#简单标题文字)
   - [简单列表](#简单列表)
   - [自定义列表](#自定义列表)
-- [扩展](#扩展)
 - [引入BottomDialog](#引入BottomDialog)
 - [自定义布局构造器](#自定义布局构造器)
   - [1. 三层布局构造器](#1.-定义三层布局构造器)
   - [2. 设置扩展函数](#2.-设置扩展函数)
   - [3. 自定义列表内容布局](#3.-自定义列表内容布局)
-- [Faqs](#Faqs)
+- [更多](#更多)
   - [1. show()过后如何更新布局？](#1.-show()过后如何更新布局？)
   - [2. 属性委托相关](#2.-属性委托相关)
 - [实现原理](#实现原理)
@@ -48,8 +44,7 @@
 ### DEMO
 
 #### 简单标题文字
-
-![](screenshots/s1.gif)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190709155749333.gif)
 
 ```kotlin
  BottomDialog.builder(this) {
@@ -74,8 +69,7 @@
 ```
 
 #### 简单列表
-
-![](screenshots/s2.gif)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190709155706751.gif)
 
 ```kotlin
 val list = ObservableList.build<String?> {
@@ -100,10 +94,7 @@ BottomDialog.builder(this) {
 ```
 
 #### 自定义列表
-
-加载应用列表，AppListBuilder 见下文自定义布局构造器
-
-![](screenshots/s3.gif)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190709155650499.gif)
 
 ```kotlin
  BottomDialog.builder(this) {
@@ -114,19 +105,6 @@ BottomDialog.builder(this) {
      oneButton("取消")
  }
 ```
-
-
-### 扩展
-
-实现的更多的ContentBuilder
-
-[详见模块Extension](extension/ReadMe.md)
-
-- 仿一加系统分享对话框效果
-[AwesomeHeader]
-
-![](screenshots/s4.gif)
-
 
 ### 引入BottomDialog
 
@@ -141,31 +119,12 @@ allprojects {
 ```
 
 2. 添加依赖
-
-最新版本：
-[![](https://jitpack.io/v/Vove7/BottomDialog.svg)](https://jitpack.io/#Vove7/BottomDialog)
-
-- BottomDialog
-
 ```groovy
 dependencies {
-	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1'
-	
-	//android x 使用依赖：
-	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1-x'
+    implementation 'com.github.Vove7:BottomDialog:1.0'
 }
 ```
-
-- 扩展包(可选)
-
-```groovy
-dependencies {
-	implementation 'com.github.Vove7.BottomDialog:extension:2.1'
-	
-	//android x 使用依赖：
-	implementation 'com.github.Vove7.BottomDialog:extension:2.1-x'
-}
-```
+> 最新版本请在Jitpack查看
 
 ### 自定义布局构造器
 
@@ -366,7 +325,7 @@ BottomDialog.builder(this) {
 ```
 
 
-### Faqs
+### 更多
 
 #### 1. show()过后如何更新布局？
 
@@ -429,4 +388,4 @@ var title by listenToUpdate(title, this, 2)
 </CoordinatorLayout>
 ```
 
-详细内容请参考源码
+详细内容请参考源码Github地址在文章头

@@ -16,7 +16,7 @@
             android:id="@+id/fill_view"
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:background="#fff"
+            android:background="@color/color_dialog_bg"
             android:layout_height="0dp" />
 
     </LinearLayout>

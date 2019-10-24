@@ -73,7 +73,9 @@ class BottomDialogActivity : AppCompatActivity() {
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAndRemoveTask()
-            } else finish()
+            } else {
+                finish()
+            }
         }
         dialog.setOnDismissListener {
             finish()
