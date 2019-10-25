@@ -25,31 +25,47 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_lay"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/trans"
             android:elevation="0dp"
-            app:elevation="0dp"
-            android:layout_height="wrap_content">
+            app:elevation="0dp">
 
             <FrameLayout
                 android:id="@+id/header_container"
-                android:background="@color/color_dialog_bg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:background="@color/color_dialog_bg"
-            android:layout_height="match_parent">
-
-            <FrameLayout
-                android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </androidx.core.widget.NestedScrollView>
+                android:background="@color/color_dialog_bg" />
+        </com.google.android.material.appbar.AppBarLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_dialog_bg">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_dialog_bg">
+
+                <FrameLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </android.support.v4.widget.NestedScrollView>
+            <View
+                android:id="@+id/appbar_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/appbar_shadow"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </RelativeLayout>
     </LinearLayout>
 
 

@@ -24,6 +24,14 @@ fun BottomDialogBuilder.toolbar(action: ToolbarHeader.() -> Unit): BottomDialogB
     return this
 }
 
+/**
+ * 更新Toolbar
+ * @receiver BottomDialog
+ * @param f [@kotlin.ExtensionFunctionType] Function1<ToolbarHeader, Unit>
+ */
+fun BottomDialog.updateToolBar(f: ToolbarHeader.() -> Unit) {
+    (headerBuilder as ToolbarHeader).apply(f)
+}
 
 class ToolbarHeader(title: CharSequence? = null) : ContentBuilder() {
     /**

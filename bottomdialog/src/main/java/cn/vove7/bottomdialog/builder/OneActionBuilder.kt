@@ -1,6 +1,8 @@
 package cn.vove7.bottomdialog.builder
 
+import android.support.annotation.ColorRes
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.R
@@ -18,7 +20,8 @@ class OneActionBuilder(
         buttonText: String,
         private val autoDismiss: Boolean,
         private val onClick: OnClick?,
-        private val onLongClick: OnClick?
+        private val onLongClick: OnClick?,
+        @ColorRes private val colorRes: Int?
 ) : ContentBuilder() {
     var buttonText: String by listenToUpdate(buttonText, this)
 
@@ -28,6 +31,9 @@ class OneActionBuilder(
     lateinit var actionButton: Button
     override fun init(view: View) {
         actionButton = view.action_button
+        colorRes?.also {
+            (actionButton.parent as ViewGroup).setBackgroundColor(actionButton.context.resources.getColor(it))
+        }
     }
 
     override fun updateContent(type: Int, data: Any?) {

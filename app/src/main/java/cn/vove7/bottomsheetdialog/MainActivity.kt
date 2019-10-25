@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.BottomDialogActivity
 import cn.vove7.bottomdialog.builder.*
+import cn.vove7.bottomdialog.extension.awesomeHeader
 import cn.vove7.bottomdialog.toolbar
 import cn.vove7.bottomdialog.util.ObservableList
-import cn.vove7.bottomdialog.extension.awesomeHeader
 import cn.vove7.bottomsheetdialog.builder.AppListBuilder
 import cn.vove7.bottomsheetdialog.builder.MarkdownContentBuilder
 import cn.vove7.bottomsheetdialog.builder.ViewIntentBuilder
@@ -152,8 +152,8 @@ class MainActivity : AppCompatActivity() {
             }
             4 -> {
                 BottomDialogActivity.builder(this) {
-                    title("1234567")
-                    message("contet")
+                    title("BottomDialogActivity")
+                    message("in activity")
                     oneButton("Cancel")
                 }
             }
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                 BottomDialog.builder(this) {
                     awesomeHeader("分享到")
                     message(buildString {
-                        for(i in 0..100) append(i)
+                        for (i in 0..100) append(i)
                     })
                 }
             }
@@ -206,8 +206,8 @@ class MainActivity : AppCompatActivity() {
                     content(MarkdownContentBuilder()) {
                         loadMarkdownFromAsset("intro.md")
                     }
+                    oneButton("确定", colorId = R.color.colorPrimary)
                 }
-
             }
         }
 

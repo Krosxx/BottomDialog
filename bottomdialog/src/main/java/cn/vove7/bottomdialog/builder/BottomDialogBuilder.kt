@@ -4,6 +4,7 @@ package cn.vove7.bottomdialog.builder
 
 import android.content.Context
 import android.graphics.Color
+import android.support.annotation.ColorRes
 import android.util.DisplayMetrics
 import android.view.MenuItem
 import android.view.WindowManager
@@ -130,12 +131,13 @@ open class BottomDialogBuilder(var context: Context) {
  */
 fun BottomDialogBuilder.oneButton(
         text: String,
+        @ColorRes colorId: Int? = null,
         autoDismiss: Boolean = true,
         listener: (ClickListenerSetter.() -> Unit)? = null
 ): BottomDialogBuilder {
     val cbSetter = ClickListenerSetter()
     listener?.invoke(cbSetter)
-    footerBuilder = OneActionBuilder(text, autoDismiss, cbSetter._onClick, cbSetter._onLongClick)
+    footerBuilder = OneActionBuilder(text, autoDismiss, cbSetter._onClick, cbSetter._onLongClick, colorId)
     return this
 }
 
