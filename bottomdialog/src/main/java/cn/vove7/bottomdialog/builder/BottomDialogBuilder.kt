@@ -4,7 +4,7 @@ package cn.vove7.bottomdialog.builder
 
 import android.content.Context
 import android.graphics.Color
-import android.support.annotation.ColorRes
+import androidx.annotation.ColorRes
 import android.util.DisplayMetrics
 import android.view.MenuItem
 import android.view.WindowManager
