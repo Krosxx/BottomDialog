@@ -7,15 +7,14 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.NestedScrollView
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.LinearLayout
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import kotlinx.android.synthetic.main.dialog_content.*
 
 
 /**
@@ -243,31 +242,33 @@ class BottomDialog internal constructor(
     }
 
 
-    //是否已有阴影
-    private var hasAppbarElevation = false
-
     private fun setContentMarginBottom(value: Int) {
         val container = this@BottomDialog.findViewById<NestedScrollView>(R.id.container)
         //阴影
-        if (headerElevation) {
-            val appbarLayout = findViewById<AppBarLayout>(R.id.appbar_lay)
+        if (headerElevation && headerBuilder != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                container.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-                    if (scrollY == 0 && hasAppbarElevation) {
-                        hasAppbarElevation = false
-                        appbarLayout.elevation = 0f
-                    } else if (!hasAppbarElevation) {
-                        hasAppbarElevation = true
-                        appbarLayout.elevation = 10f
+                container.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+                    if (scrollY == 0) {
+                        if (showAppBarElevation) {
+                            showAppBarElevation = false
+                        }
+                    } else if (!showAppBarElevation) {
+                        showAppBarElevation = true
                     }
                 }
             }
         }
-        container.layoutParams = (container.layoutParams as LinearLayout.LayoutParams).also { p ->
+        container.layoutParams = (container.layoutParams as ViewGroup.MarginLayoutParams).also { p ->
             p.setMargins(0, 0, 0, value)
         }
 
     }
+
+    var showAppBarElevation: Boolean
+        get() = appbar_elevation.visibility == View.VISIBLE
+        set(value) {
+            appbar_elevation.visibility = if (value) View.VISIBLE else View.GONE
+        }
 
     private fun getNavigationBarHeight(): Int {
         val resources = context.resources
@@ -371,13 +372,4 @@ class BottomDialog internal constructor(
     fun halfExpand() {
         behaviorController.collapsed()
     }
-}
-
-/**
- * 更新Toolbar
- * @receiver BottomDialog
- * @param f [@kotlin.ExtensionFunctionType] Function1<ToolbarHeader, Unit>
- */
-fun BottomDialog.updateToolBar(f: ToolbarHeader.() -> Unit) {
-    (headerBuilder as ToolbarHeader).apply(f)
 }
