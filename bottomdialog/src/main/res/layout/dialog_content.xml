@@ -33,8 +33,7 @@
             <FrameLayout
                 android:id="@+id/header_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_dialog_bg" />
+                android:layout_height="wrap_content" />
         </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout

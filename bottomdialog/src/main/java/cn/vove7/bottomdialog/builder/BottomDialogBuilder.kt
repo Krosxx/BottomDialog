@@ -6,9 +6,7 @@ import android.content.Context
 import android.graphics.Color
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.MenuItem
 import android.view.WindowManager
 import cn.vove7.bottomdialog.R
@@ -164,7 +162,8 @@ fun BottomDialogBuilder.oneButton(
 ): BottomDialogBuilder {
     val cbSetter = ClickListenerSetter()
     listener?.invoke(cbSetter)
-    footerBuilder = OneActionBuilder(text, autoDismiss, cbSetter._onClick, cbSetter._onLongClick, colorId)
+    footerBuilder =
+        OneActionBuilder(text, autoDismiss, cbSetter._onClick, cbSetter._onLongClick, colorId)
     return this
 }
 
@@ -254,9 +253,9 @@ fun BottomDialogBuilder.mutableList(
  * @param title CharSequence?
  * @return BottomDialogBuilder
  */
-fun BottomDialogBuilder.title(title: CharSequence?): BottomDialogBuilder {
+fun BottomDialogBuilder.title(title: CharSequence?, round: Boolean = false): BottomDialogBuilder {
     if (headerBuilder == null) {
-        headerBuilder = ToolbarHeader(title)
+        headerBuilder = ToolbarHeader(title, round)
     } else {
         (headerBuilder as ToolbarHeader).title = title
     }

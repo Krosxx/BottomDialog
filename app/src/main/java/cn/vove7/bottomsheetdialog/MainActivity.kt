@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         when (pos) {
             0 -> {
                 BottomDialog.builder(this) {
-                    title("Hello")
+                    title("Hello", true)
                     cancelable(false)
                     withCloseIcon()
                     message(
