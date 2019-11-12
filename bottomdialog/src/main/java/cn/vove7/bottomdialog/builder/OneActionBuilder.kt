@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder

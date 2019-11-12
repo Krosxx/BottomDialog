@@ -3,11 +3,11 @@ package cn.vove7.bottomdialog.util
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.support.annotation.AttrRes
-import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.AlphaAnimation
+import androidx.annotation.AttrRes
+import androidx.core.content.ContextCompat
 import cn.vove7.bottomdialog.R
 
 /**
