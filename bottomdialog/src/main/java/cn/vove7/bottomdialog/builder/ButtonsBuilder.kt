@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.TextView
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import cn.vove7.bottomdialog.util.accentColor
+import cn.vove7.bottomdialog.util.primaryColor
 import kotlinx.android.synthetic.main.action_buttons.view.*
 
 /**
@@ -27,6 +29,9 @@ class ButtonsBuilder : ContentBuilder() {
 
     override fun init(view: View) {
         buttonPositive = view.dialog_button_positive
+        buttonPositive.context.accentColor?.also {
+            buttonPositive.setTextColor(it)
+        }
         buttonNegative = view.dialog_button_negative
         buttonNeutral = view.dialog_button_neutral
     }
@@ -56,9 +61,9 @@ class ButtonsBuilder : ContentBuilder() {
 
     override fun updateContent(type: Int, data: Any?) {
         val idMap = arrayOf(
-                R.id.dialog_button_positive,
-                R.id.dialog_button_negative,
-                R.id.dialog_button_neutral
+            R.id.dialog_button_positive,
+            R.id.dialog_button_negative,
+            R.id.dialog_button_neutral
         )
         arrayOf(buttonNeutral, buttonPositive, buttonNegative).forEach {
             val p = map.getOrNull(idMap.indexOf(it.id)) ?: return@forEach

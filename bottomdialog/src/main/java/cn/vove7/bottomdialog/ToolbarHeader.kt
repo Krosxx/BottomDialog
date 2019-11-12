@@ -33,7 +33,10 @@ fun BottomDialog.updateToolBar(f: ToolbarHeader.() -> Unit) {
     (headerBuilder as ToolbarHeader).apply(f)
 }
 
-class ToolbarHeader(title: CharSequence? = null) : ContentBuilder() {
+class ToolbarHeader(
+    title: CharSequence? = null,
+    private val round: Boolean = false
+) : ContentBuilder() {
     /**
      * 指定更新type=1
      */
@@ -60,6 +63,7 @@ class ToolbarHeader(title: CharSequence? = null) : ContentBuilder() {
      */
     override fun init(view: View) {
         toolBar = view.tool_bar
+        if (round) toolBar.setBackgroundResource(R.drawable.toolbar_round_bg)
     }
 
     /**

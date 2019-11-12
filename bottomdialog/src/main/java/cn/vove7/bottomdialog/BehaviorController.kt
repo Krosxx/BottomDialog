@@ -21,7 +21,7 @@ class BehaviorController(view: View, lis: StatusCallback) {
         }
         get() = behavior.isHideable
 
-    var peekHeight :Int
+    var peekHeight: Int
         set(value) {
             behavior.peekHeight = value
         }

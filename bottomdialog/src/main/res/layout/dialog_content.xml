@@ -33,9 +33,8 @@
             <FrameLayout
                 android:id="@+id/header_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_dialog_bg" />
-        </com.google.android.material.appbar.AppBarLayout>
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -45,8 +44,7 @@
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_dialog_bg">
+                android:layout_height="match_parent">
 
                 <FrameLayout
                     android:id="@+id/content"
@@ -66,6 +64,7 @@
                 tools:visibility="visible" />
 
         </RelativeLayout>
+
     </LinearLayout>
 
 

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_dialog_bg">#FDFDFE</color>
+
+    <color name="colorPrimary">#E69732</color>
+    <color name="colorPrimaryDark">#FB8C00</color>
+    <color name="colorAccent">#FF5722</color>
 </resources>

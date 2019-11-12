@@ -35,16 +35,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val items = listOf(
-                getString(R.string.message_dialog),
-                getString(R.string.simple_list_dialog),
-                getString(R.string.adapter_list_dialog),
-                "Multi Buttons Dialog",
-                "Dialog Activity",
-                "Toolbar",
-                "Awesome Header Dialog",
-                "Delay Show ActivityDialog",
-                "Awesome Share",
-                "Markdown Dialog"
+            getString(R.string.message_dialog),
+            getString(R.string.simple_list_dialog),
+            getString(R.string.adapter_list_dialog),
+            "Multi Buttons Dialog",
+            "Dialog Activity",
+            "Toolbar",
+            "Awesome Header Dialog",
+            "Delay Show ActivityDialog",
+            "Awesome Share",
+            "Markdown Dialog",
+            "UnExpandable Dialog"
         )
         list_view.adapter = object : BaseAdapter() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -74,16 +75,16 @@ class MainActivity : AppCompatActivity() {
         when (pos) {
             0 -> {
                 BottomDialog.builder(this) {
-                    title("Hello")
+                    title("Hello", true)
                     cancelable(false)
                     withCloseIcon()
                     message(
-                            buildString {
-                                for (i in 0..30) {
-                                    for (j in 0..i * 5) append(j)
-                                    appendln()
-                                }
-                            }, true
+                        buildString {
+                            for (i in 0..30) {
+                                for (j in 0..i * 5) append(j)
+                                appendln()
+                            }
+                        }, true
                     )
                     oneButton("OK") {
                         onLongClick { dialog ->
@@ -192,8 +193,10 @@ class MainActivity : AppCompatActivity() {
                         putExtra(Intent.EXTRA_TEXT, "分享内容")
                     }
                     content(ViewIntentBuilder(intentFilter) { dialog: Dialog, position: Int, item: ResolveInfo, isLongClick: Boolean ->
-                        intentFilter.component = ComponentName(item.activityInfo.packageName,
-                                item.activityInfo.name)
+                        intentFilter.component = ComponentName(
+                            item.activityInfo.packageName,
+                            item.activityInfo.name
+                        )
                         intentFilter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intentFilter)
                     })
@@ -202,6 +205,18 @@ class MainActivity : AppCompatActivity() {
             9 -> {
                 BottomDialog.builder(this) {
                     awesomeHeader("介绍")
+
+                    content(MarkdownContentBuilder()) {
+                        loadMarkdownFromAsset("intro.md")
+                    }
+                    oneButton("确定", colorId = R.color.colorPrimary)
+                }
+            }
+            10 -> {
+                BottomDialog.builder(this) {
+                    expandable = false
+                    peekHeightProportion = 0.8f
+                    title("介绍")
 
                     content(MarkdownContentBuilder()) {
                         loadMarkdownFromAsset("intro.md")
