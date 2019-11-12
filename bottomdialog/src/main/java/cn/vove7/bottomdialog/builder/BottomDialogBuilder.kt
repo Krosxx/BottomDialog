@@ -4,14 +4,18 @@ package cn.vove7.bottomdialog.builder
 
 import android.content.Context
 import android.graphics.Color
+import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
+import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.WindowManager
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.ToolbarHeader
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.ObservableList
+import cn.vove7.bottomdialog.util.primaryColor
 
 /**
  * # BottomDialogInterface
@@ -47,6 +51,12 @@ open class BottomDialogBuilder(var context: Context) {
 
     var expand: Boolean = false
 
+    /**
+     * 是否可展开(全屏)
+     * false 时，需指定peekHeight
+     */
+    var expandable: Boolean = true
+
     var mCancelable = true
 
     var backgroundColor: Int = Color.parseColor("#FDFDFE")
@@ -54,13 +64,21 @@ open class BottomDialogBuilder(var context: Context) {
     /**
      * 导航栏背景色(若存在导航栏)
      */
-    var navBgColor: Int? = null
+    @ColorInt
+    var navBgColor: Int? = context.primaryColor
 
-    var peekHeight: Int = {
-        val out = DisplayMetrics()
-        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(out)
-        (out.heightPixels * 0.55).toInt()
-    }()
+    /**
+     * 高度百分比
+     */
+    var peekHeightProportion: Float = 0.0f
+        set(value) {
+            val out = DisplayMetrics()
+            val ws = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            ws.defaultDisplay.getMetrics(out)
+            peekHeight = (out.heightPixels * value).toInt()
+        }
+
+    var peekHeight: Int = -1
 
     fun peekHeight(peekHeight: Int) {
         this.peekHeight = peekHeight
@@ -91,7 +109,10 @@ open class BottomDialogBuilder(var context: Context) {
      * @param headerBuilder T
      * @param action [@kotlin.ExtensionFunctionType] Function1<T, Unit>
      */
-    fun <T : ContentBuilder> header(headerBuilder: T, action: (T.() -> Unit)? = null): BottomDialogBuilder {
+    fun <T : ContentBuilder> header(
+        headerBuilder: T,
+        action: (T.() -> Unit)? = null
+    ): BottomDialogBuilder {
         action?.also { it.invoke(headerBuilder) }
         this.headerBuilder = headerBuilder
         return this
@@ -102,7 +123,10 @@ open class BottomDialogBuilder(var context: Context) {
      * @param contentBuilder T
      * @param action [@kotlin.ExtensionFunctionType] Function1<T, Unit>
      */
-    fun <T : ContentBuilder> content(contentBuilder: T, action: (T.() -> Unit)? = null): BottomDialogBuilder {
+    fun <T : ContentBuilder> content(
+        contentBuilder: T,
+        action: (T.() -> Unit)? = null
+    ): BottomDialogBuilder {
         action?.also { it.invoke(contentBuilder) }
         this.contentBuilder = contentBuilder
         return this
@@ -113,7 +137,10 @@ open class BottomDialogBuilder(var context: Context) {
      * @param footerBuilder T
      * @param action [@kotlin.ExtensionFunctionType] Function1<T, Unit>
      */
-    fun <T : ContentBuilder> footer(footerBuilder: T, action: (T.() -> Unit)? = null): BottomDialogBuilder {
+    fun <T : ContentBuilder> footer(
+        footerBuilder: T,
+        action: (T.() -> Unit)? = null
+    ): BottomDialogBuilder {
         action?.also { it.invoke(footerBuilder) }
         this.footerBuilder = footerBuilder
         return this
@@ -130,10 +157,10 @@ open class BottomDialogBuilder(var context: Context) {
  * @return BottomDialogBuilder
  */
 fun BottomDialogBuilder.oneButton(
-        text: String,
-        @ColorRes colorId: Int? = null,
-        autoDismiss: Boolean = true,
-        listener: (ClickListenerSetter.() -> Unit)? = null
+    text: String,
+    @ColorRes colorId: Int? = null,
+    autoDismiss: Boolean = true,
+    listener: (ClickListenerSetter.() -> Unit)? = null
 ): BottomDialogBuilder {
     val cbSetter = ClickListenerSetter()
     listener?.invoke(cbSetter)
@@ -183,14 +210,14 @@ fun BottomDialogBuilder.message(text: String, selectable: Boolean = false): Bott
  * @return BottomDialogBuilder
  */
 fun BottomDialogBuilder.simpleList(
-        items: List<String?>,
-        autoDismiss: Boolean = true,
-        onItemClick: OnItemClick<String?>? = null
+    items: List<String?>,
+    autoDismiss: Boolean = true,
+    onItemClick: OnItemClick<String?>? = null
 ): BottomDialogBuilder {
     contentBuilder = SimpleListBuilder(
-            if (items is ObservableList<String?>) items
-            else ObservableList(items.toMutableList()),
-            autoDismiss, onItemClick
+        if (items is ObservableList<String?>) items
+        else ObservableList(items.toMutableList()),
+        autoDismiss, onItemClick
     )
     return this
 }
@@ -211,9 +238,9 @@ fun BottomDialogBuilder.simpleList(
  * @return BottomDialogBuilder
  */
 fun BottomDialogBuilder.mutableList(
-        items: ObservableList<String?>,
-        autoDismiss: Boolean = true,
-        onItemClick: OnItemClick<String?>
+    items: ObservableList<String?>,
+    autoDismiss: Boolean = true,
+    onItemClick: OnItemClick<String?>
 ): BottomDialogBuilder {
     contentBuilder = SimpleListBuilder(items, autoDismiss, onItemClick)
     return this

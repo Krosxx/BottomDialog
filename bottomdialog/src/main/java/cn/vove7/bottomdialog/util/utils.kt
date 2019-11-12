@@ -1,9 +1,14 @@
 package cn.vove7.bottomdialog.util
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.support.annotation.AttrRes
+import android.support.v4.content.ContextCompat
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.AlphaAnimation
+import cn.vove7.bottomdialog.R
 
 /**
  * # utils
@@ -37,3 +42,12 @@ fun View.fadeIn(duration: Long = 500) {
         setDuration(duration)
     })
 }
+
+fun Context.attr(@AttrRes attrId: Int): TypedValue = TypedValue().also {
+    theme.resolveAttribute(attrId, it, true)
+}
+
+val Context.primaryColor: Int?
+    get() = ContextCompat.getColor(this, R.color.colorPrimary)
+val Context.accentColor: Int?
+    get() = ContextCompat.getColor(this, R.color.colorAccent)

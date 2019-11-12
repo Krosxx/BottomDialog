@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.dialog_content.*
  */
 @Suppress("UNCHECKED_CAST", "unused")
 class BottomDialog internal constructor(
-        builder: BottomDialogBuilder
+    builder: BottomDialogBuilder
 ) : Dialog(builder.context, builder.themeId) {
 
     companion object {
@@ -36,7 +36,11 @@ class BottomDialog internal constructor(
          * 非Activity显示对话框，使用：[BottomDialogActivity]
          * @param action [@kotlin.ExtensionFunctionType] Function1<BottomDialogBuilder, Unit>
          */
-        fun builder(activity: Activity, show: Boolean = true, action: BottomDialogBuilder.() -> Unit): BottomDialog {
+        fun builder(
+            activity: Activity,
+            show: Boolean = true,
+            action: BottomDialogBuilder.() -> Unit
+        ): BottomDialog {
             val b = BottomDialogBuilder(activity).apply(action)
             return BottomDialog(b).also {
                 if (show) {
@@ -51,6 +55,7 @@ class BottomDialog internal constructor(
     val activity: Activity = builder.context as Activity
 
     private val expand: Boolean = builder.expand
+    private val expandable: Boolean = builder.expandable
 
     /**
      * 头部布局
@@ -103,7 +108,8 @@ class BottomDialog internal constructor(
     val stateBarHeight: Int
         get() {
             var result = 0
-            val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+            val resourceId =
+                context.resources.getIdentifier("status_bar_height", "dimen", "android")
             if (resourceId > 0) {
                 result = context.resources.getDimensionPixelSize(resourceId)
             }
@@ -182,6 +188,20 @@ class BottomDialog internal constructor(
         behaviorController.peekHeight = peekHeight
 
         val rootView = findViewById<ViewGroup>(R.id.root)
+
+        if (!expandable) {
+            if (peekHeight > 0) {
+                bsView.layoutParams.also {
+                    it.height = peekHeight
+                    bsView.layoutParams = it
+                }
+            } else {
+                throw Exception("expandable must set peekHeight")
+            }
+
+        }
+
+
         rootView.setOnClickListener {
             if (mCancelable) cancel()
         }
@@ -258,9 +278,10 @@ class BottomDialog internal constructor(
                 }
             }
         }
-        container.layoutParams = (container.layoutParams as ViewGroup.MarginLayoutParams).also { p ->
-            p.setMargins(0, 0, 0, value)
-        }
+        container.layoutParams =
+            (container.layoutParams as ViewGroup.MarginLayoutParams).also { p ->
+                p.setMargins(0, 0, 0, value)
+            }
 
     }
 

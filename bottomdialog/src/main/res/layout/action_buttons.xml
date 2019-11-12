@@ -19,7 +19,7 @@
             android:minWidth="60dp"
             android:padding="10dp"
             android:text="NEUTRAL"
-            android:textColor="#000"
+            android:textColor="#222222"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -44,7 +44,7 @@
         android:minWidth="60dp"
         android:padding="10dp"
         android:text="NEGATIVE"
-        android:textColor="#000"
+        android:textColor="#222222"
         android:textStyle="bold" />
 
 </LinearLayout>
