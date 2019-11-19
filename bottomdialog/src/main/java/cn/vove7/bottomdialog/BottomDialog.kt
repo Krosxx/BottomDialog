@@ -83,7 +83,8 @@ class BottomDialog internal constructor(
     private var peekHeight: Int = builder.peekHeight
 
     val headerView: ViewGroup get() = findViewById(R.id.header_container)
-    val footerView: ViewGroup get() = findViewById(R.id.footer_contains)
+    val footerView: ViewGroup get() = findViewById(R.id.footer_content)
+    val footerContainer: ViewGroup get() = findViewById(R.id.footer_container)
     val contentView: ViewGroup get() = findViewById(R.id.content)
 
     private lateinit var behaviorController: BehaviorController
@@ -125,9 +126,9 @@ class BottomDialog internal constructor(
             }
             footerBuilder ?: return
             if (slideOffset < 0) {
-                footerView.scrollY = (slideOffset * bottomHeight).toInt()
+                footerContainer.scrollY = (slideOffset * bottomHeight).toInt()
             } else {
-                footerView.scrollY = 0
+                footerContainer.scrollY = 0
             }
         }
 
@@ -216,7 +217,7 @@ class BottomDialog internal constructor(
         footerBuilder?.also {
             footerView.addView(it.build(context, this).apply {
                 post {
-                    bottomHeight = this.height + navHeight
+                    bottomHeight = footerContainer.height + navHeight
                     setContentMarginBottom(bottom + navHeight)
                 }
             })
@@ -258,16 +259,16 @@ class BottomDialog internal constructor(
             sf.layoutParams = sf.layoutParams.also { it.height = stateBarHeight }
         }
 
-
+        shadowListener()
     }
 
-
-    private fun setContentMarginBottom(value: Int) {
-        val container = this@BottomDialog.findViewById<NestedScrollView>(R.id.container)
+    private fun shadowListener() {
         //阴影
-        if (headerElevation && headerBuilder != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                container.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+        showFooterElevation = footerBuilder != null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            container.setOnScrollChangeListener { nv: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
+                //顶部阴影
+                if (headerElevation && headerBuilder != null) {
                     if (scrollY == 0) {
                         if (showAppBarElevation) {
                             showAppBarElevation = false
@@ -276,8 +277,24 @@ class BottomDialog internal constructor(
                         showAppBarElevation = true
                     }
                 }
+
+                //底部阴影
+                if (headerElevation && footerBuilder != null) {
+                    if (contentView.height == scrollY + nv.height) {
+                        showFooterElevation = false
+                    } else {
+                        if (!showFooterElevation) {
+                            showFooterElevation = true
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private val container get() = this.findViewById<NestedScrollView>(R.id.container)
+
+    private fun setContentMarginBottom(value: Int) {
         container.layoutParams =
             (container.layoutParams as ViewGroup.MarginLayoutParams).also { p ->
                 p.setMargins(0, 0, 0, value)
@@ -289,6 +306,12 @@ class BottomDialog internal constructor(
         get() = appbar_elevation.visibility == View.VISIBLE
         set(value) {
             appbar_elevation.visibility = if (value) View.VISIBLE else View.GONE
+        }
+
+    var showFooterElevation: Boolean
+        get() = footer_elevation.visibility == View.VISIBLE
+        set(value) {
+            footer_elevation.visibility = if (value) View.VISIBLE else View.GONE
         }
 
     private fun getNavigationBarHeight(): Int {
