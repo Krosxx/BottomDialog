@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.View.NO_ID
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.widget.NestedScrollView
@@ -314,14 +315,18 @@ class BottomDialog internal constructor(
             footer_elevation.visibility = if (value) View.VISIBLE else View.GONE
         }
 
+    /**
+     * 获取导航栏高度
+     * 可能隐藏
+     * **需要保证Activity 100ms 后再显示状态栏**
+     * @return Int
+     */
     private fun getNavigationBarHeight(): Int {
         val resources = context.resources
-
         return if (checkHasNavigationBar(activity)) {//判断是否有导航栏
             val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
             resources.getDimensionPixelSize(resourceId)
         } else 0
-
     }
 
     /**
@@ -341,24 +346,16 @@ class BottomDialog internal constructor(
      */
     @SuppressLint("ObsoleteSdkInt")
     fun checkHasNavigationBar(activity: Activity): Boolean {
-        val windowManager = activity.windowManager
-        val d = windowManager.defaultDisplay
+        val NAVIGATION = "navigationBarBackground"
 
-        val realDisplayMetrics = DisplayMetrics()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            d.getRealMetrics(realDisplayMetrics)
-        }
-
-        val realHeight = realDisplayMetrics.heightPixels
-        val realWidth = realDisplayMetrics.widthPixels
-
-        val displayMetrics = DisplayMetrics()
-        d.getMetrics(displayMetrics)
-
-        val displayHeight = displayMetrics.heightPixels
-        val displayWidth = displayMetrics.widthPixels
-
-        return realWidth - displayWidth > 0 || realHeight - displayHeight > 0
+        // 该方法需要在View完全被绘制出来之后调用，否则判断不了
+        //在比如 onWindowFocusChanged（）方法中可以得到正确的结果
+        val vp = activity.window.decorView as ViewGroup?
+        return if (vp != null) {
+            (0 until vp.childCount).map { vp.getChildAt(it) }.any {
+                it.id != NO_ID && NAVIGATION == activity.resources.getResourceEntryName(it.id)
+            }
+        } else false
     }
 
     override fun show() {
