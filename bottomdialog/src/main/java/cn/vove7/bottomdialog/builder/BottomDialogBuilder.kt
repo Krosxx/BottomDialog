@@ -68,6 +68,7 @@ open class BottomDialogBuilder(var context: Context) {
     /**
      * 高度百分比
      */
+    @Suppress("SetterBackingFieldAssignment")
     var peekHeightProportion: Float = 0.0f
         set(value) {
             val out = DisplayMetrics()

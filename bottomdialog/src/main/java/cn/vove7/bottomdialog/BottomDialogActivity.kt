@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
@@ -69,7 +70,9 @@ class BottomDialogActivity : AppCompatActivity() {
         }
         dialogTag = i.getIntExtra("tag", 0)
         try {
-            dialog = BottomDialog(dialogArray?.get(dialogTag)!!.also { it.context = this@BottomDialogActivity })
+            dialog = BottomDialog(dialogArray?.get(dialogTag)!!.also {
+                it.context = this@BottomDialogActivity
+            })
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAndRemoveTask()
@@ -80,7 +83,10 @@ class BottomDialogActivity : AppCompatActivity() {
         dialog.setOnDismissListener {
             finish()
         }
-        dialog.show()
+        //延迟100ms保证正确识别到导航栏
+        Handler().postDelayed({
+            dialog.show()
+        }, 100)
     }
 
     override fun onDestroy() {
