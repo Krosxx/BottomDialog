@@ -3,15 +3,15 @@ package cn.vove7.bottomdialog
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.DisplayMetrics
-import android.view.View
+import android.view.*
 import android.view.View.NO_ID
-import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.widget.NestedScrollView
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
@@ -248,10 +248,8 @@ class BottomDialog internal constructor(
             setOnDismissListener { it() }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            val tag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            rootView.systemUiVisibility = tag
-        }
+        val tag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        rootView.systemUiVisibility = tag
 
         val sf = findViewById<View>(R.id.statusbar_fill)
         if (immersionStatusBar) {
@@ -323,7 +321,7 @@ class BottomDialog internal constructor(
      */
     private fun getNavigationBarHeight(): Int {
         val resources = context.resources
-        return if (checkHasNavigationBar(activity)) {//判断是否有导航栏
+        return if (checkNavigationBarShow(activity.window)) {//判断是否有导航栏
             val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
             resources.getDimensionPixelSize(resourceId)
         } else 0
@@ -356,6 +354,23 @@ class BottomDialog internal constructor(
                 it.id != NO_ID && NAVIGATION == activity.resources.getResourceEntryName(it.id)
             }
         } else false
+
+    }
+
+    /**
+     * 主要判断底部是否有导航栏
+     *
+     * @param window  当前窗口
+     * @return true(显示虚拟导航栏)，false(不显示或不支持虚拟导航栏)
+     */
+    private fun checkNavigationBarShow(window: Window): Boolean {
+        val display: Display = window.windowManager.defaultDisplay
+        val point = Point()
+        display.getRealSize(point)
+        val decorView: View = window.decorView
+        val rect = Rect()
+        decorView.getWindowVisibleDisplayFrame(rect)
+        return rect.bottom != point.y
     }
 
     override fun show() {

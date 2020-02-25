@@ -4,8 +4,6 @@ import android.view.View
 import android.widget.TextView
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
-import cn.vove7.bottomdialog.util.accentColor
-import cn.vove7.bottomdialog.util.primaryColor
 import kotlinx.android.synthetic.main.action_buttons.view.*
 
 /**
@@ -25,34 +23,31 @@ class ButtonsBuilder : ContentBuilder() {
     lateinit var buttonNeutral: TextView
         private set
 
-    private val map by lazy { Array<Pair<String, OnClick>?>(3) { null } }
+    private val map by lazy { Array<Pair<CharSequence, OnClick>?>(3) { null } }
 
     override fun init(view: View) {
         buttonPositive = view.dialog_button_positive
-        buttonPositive.context.accentColor?.also {
-            buttonPositive.setTextColor(it)
-        }
         buttonNegative = view.dialog_button_negative
         buttonNeutral = view.dialog_button_neutral
     }
 
-    fun positiveButton(text: String = "确认", onClick: OnClick) {
+    fun positiveButton(text: CharSequence = "确认", onClick: OnClick) {
         save(0, text, onClick)
     }
 
-    fun negativeButton(text: String = "取消", onClick: OnClick = { dialog.dismiss() }) {
+    fun negativeButton(text: CharSequence = "取消", onClick: OnClick = { dialog.dismiss() }) {
         save(1, text, onClick)
     }
 
-    fun neutralButton(text: String, onClick: OnClick) {
+    fun neutralButton(text: CharSequence, onClick: OnClick) {
         save(2, text, onClick)
     }
 
-    private fun save(index: Int, text: String, onClick: OnClick) {
+    private fun save(index: Int, text: CharSequence, onClick: OnClick) {
         map[index] = (text to onClick)
     }
 
-    private fun setButton(btn: TextView, text: String, onClick: OnClick = { dialog.dismiss() }) {
+    private fun setButton(btn: TextView, text: CharSequence, onClick: OnClick = { dialog.dismiss() }) {
         btn.text = text
         btn.visibility = View.VISIBLE
         btn.setOnClickListener { onClick(dialog) }

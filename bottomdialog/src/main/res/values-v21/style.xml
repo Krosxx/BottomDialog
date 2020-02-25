@@ -7,22 +7,25 @@
 
         <item name="android:windowIsFloating">true</item>
 
+        <item name="android:statusBarColor">@color/trans</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/trans</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:colorAccent">?attr/colorAccent</item>
+        <item name="android:colorPrimary">?attr/colorPrimary</item>
+        <item name="android:colorPrimaryDark">?attr/colorPrimaryDark</item>
     </style>
 
     <style name="BottomDialogActivity" parent="Theme.AppCompat.Light.NoActionBar">
         <!--半透明-->
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@color/trans</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowEnterAnimation">@null</item>
         <item name="android:windowExitAnimation">@null</item>
         <item name="android:windowBackground">@color/trans</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="android:fitsSystemWindows">false</item>
     </style>
-
-
-
-    <color name="trans">#00000000</color>
-    <color name="half_trans">#6F000000</color>
 </resources>

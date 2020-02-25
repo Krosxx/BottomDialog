@@ -55,7 +55,7 @@
             <View
                 android:id="@+id/appbar_elevation"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="2dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
@@ -84,10 +84,7 @@
             <View
                 android:id="@+id/footer_elevation"
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_height="2dp"
                 android:background="@drawable/footer_shadow" />
 
             <FrameLayout

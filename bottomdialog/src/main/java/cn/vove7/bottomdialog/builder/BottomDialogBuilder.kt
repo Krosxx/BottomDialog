@@ -3,6 +3,7 @@
 package cn.vove7.bottomdialog.builder
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -25,6 +26,26 @@ import cn.vove7.bottomdialog.util.primaryColor
 open class BottomDialogBuilder(var context: Context) {
     var themeId: Int = R.style.BottomDialog
 
+    /**
+     * 高度百分比
+     */
+    @Suppress("SetterBackingFieldAssignment")
+    var peekHeightProportion: Float = 0.0f
+        set(value) {
+            val out = DisplayMetrics()
+            val ws = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            ws.defaultDisplay.getMetrics(out)
+            peekHeight = (out.heightPixels * value).toInt()
+        }
+    var peekHeight: Int = -1
+
+    init {
+        val isLandscape =
+            context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+        if (isLandscape) {
+            peekHeightProportion = 0.6f
+        }
+    }
     /**
      * 头部布局
      */
@@ -64,20 +85,6 @@ open class BottomDialogBuilder(var context: Context) {
      */
     @ColorInt
     var navBgColor: Int? = context.primaryColor
-
-    /**
-     * 高度百分比
-     */
-    @Suppress("SetterBackingFieldAssignment")
-    var peekHeightProportion: Float = 0.0f
-        set(value) {
-            val out = DisplayMetrics()
-            val ws = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            ws.defaultDisplay.getMetrics(out)
-            peekHeight = (out.heightPixels * value).toInt()
-        }
-
-    var peekHeight: Int = -1
 
     fun peekHeight(peekHeight: Int) {
         this.peekHeight = peekHeight
