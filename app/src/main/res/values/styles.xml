@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BottomDialog.Dark" parent="BottomDialog">
+        <item name="bd_bg_color">#212121</item>
+        <item name="android:textColorPrimary">#fff</item>
+    </style>
+
 </resources>

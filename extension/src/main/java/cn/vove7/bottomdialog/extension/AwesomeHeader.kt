@@ -17,9 +17,10 @@ import cn.vove7.bottomdialog.util.listenToUpdate
 import kotlinx.android.synthetic.main.header_awesome.view.*
 
 
-fun BottomDialogBuilder.awesomeHeader(title: String) {
+fun BottomDialogBuilder.awesomeHeader(title: String, isDark: Boolean = false) {
     header(AwesomeHeader()) {
         this.title = title
+        isDarkHeader = isDark
     }
 }
 
@@ -60,6 +61,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
 
     }
 
+    var isDarkHeader: Boolean = false
 
     var status = 0
     var lastOff = 0f
@@ -114,10 +116,12 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
      * 暂不支持6.0以下系统
      */
     private fun setStatusbarColor() {
+        if (isDarkHeader) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (status == 0) {
-                dialog.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                dialog.window?.decorView?.systemUiVisibility =
+                    SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     dialog.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

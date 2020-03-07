@@ -1,5 +1,6 @@
 package cn.vove7.bottomsheetdialog.builder
 
+import android.graphics.Color
 import android.view.View
 import br.tiagohm.markdownview.MarkdownView
 import br.tiagohm.markdownview.css.styles.Bootstrap
@@ -15,15 +16,24 @@ import java.io.File
  * @author Vove
  * 2019/6/30
  */
-class MarkdownContentBuilder : ContentBuilder() {
+class MarkdownContentBuilder(
+    private val isDarkMode: Boolean = false
+) : ContentBuilder() {
 
     override val layoutRes: Int
         get() = R.layout.dialog_markdown_view
 
     lateinit var mdView: MarkdownView
+
     override fun init(view: View) {
         mdView = view.markdown_view
-        mdView.addStyleSheet(MyStyle())
+        if (isDarkMode) {
+            //防止白色背景闪屏
+            mdView.setBackgroundColor(Color.parseColor("#212121"))
+        }
+        mdView.addStyleSheet(
+            if (isDarkMode) MyDarkStyle() else MyStyle()
+        )
     }
 
     var source: Any? = null
@@ -59,11 +69,24 @@ class MarkdownContentBuilder : ContentBuilder() {
     }
 }
 
+class MyDarkStyle : MyStyle() {
+    init {
+        this.addRule("body", "background: #212121","color: #eee")
+        this.addRule("img", "opacity: 0.7")
+        this.addRule("pre", "background: #f6f8fab0")
+        this.addRule("code", "background: #444242")
+        addRule(
+            "blockquote",
+            "border-left: 5px solid #444242"
+        )
+    }
+}
+
 /**
  * 自定义主题
  * 设置边距
  */
-class MyStyle : Bootstrap() {
+open class MyStyle : Bootstrap() {
     init {
         this.addRule("body", "line-height: 1.6", "padding: 5px")
 
@@ -73,13 +96,44 @@ class MyStyle : Bootstrap() {
         this.addRule("h4", "font-size: 16px")
         this.addRule("h5", "font-size: 14px")
         this.addRule("h6", "font-size: 14px")
-        this.addRule("pre", "position: relative", "padding: 5px 5px", "border: 0", "border-radius: 3px", "background-color: #f6f8fa")
-        this.addRule("pre code", "position: relative", "line-height: 1.45", "background-color: transparent")
+        this.addRule(
+            "pre",
+            "position: relative",
+            "padding: 5px 5px",
+            "border: 0",
+            "border-radius: 3px",
+            "background-color: #f6f8fa"
+        )
+        this.addRule(
+            "pre code",
+            "position: relative",
+            "line-height: 1.45",
+            "background-color: transparent"
+        )
         this.addRule("table tr:nth-child(2n)", "background-color: #f6f8fa")
         this.addRule("table th", "padding: 6px 13px", "border: 1px solid #dfe2e5")
         this.addRule("table td", "padding: 6px 13px", "border: 1px solid #dfe2e5")
-        this.addRule("kbd", "color: #444d56", "font-family: Consolas, \"Liberation Mono\", Menlo, Courier, monospace", "background-color: #fcfcfc", "border: solid 1px #c6cbd1", "border-bottom-color: #959da5", "border-radius: 3px", "box-shadow: inset 0 -1px 0 #959da5")
-        this.addRule("pre[language]::before", "content: attr(language)", "position: absolute", "top: 0", "right: 5px", "padding: 2px 1px", "text-transform: uppercase", "color: #666", "font-size: 8.5px")
+        this.addRule(
+            "kbd",
+            "color: #444d56",
+            "font-family: Consolas, \"Liberation Mono\", Menlo, Courier, monospace",
+            "background-color: #fcfcfc",
+            "border: solid 1px #c6cbd1",
+            "border-bottom-color: #959da5",
+            "border-radius: 3px",
+            "box-shadow: inset 0 -1px 0 #959da5"
+        )
+        this.addRule(
+            "pre[language]::before",
+            "content: attr(language)",
+            "position: absolute",
+            "top: 0",
+            "right: 5px",
+            "padding: 2px 1px",
+            "text-transform: uppercase",
+            "color: #666",
+            "font-size: 8.5px"
+        )
         this.addRule("pre:not([language])", "padding: 6px 10px")
         this.addRule(".footnotes li p:last-of-type", "display: inline")
         this.addRule(".yt-player", "box-shadow: 0px 0px 12px rgba(0,0,0,0.2)")

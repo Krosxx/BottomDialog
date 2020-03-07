@@ -9,6 +9,10 @@
 
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/trans</item>
+
+
+        <item name="bd_bg_color">@color/color_dialog_bg</item>
+        <item name="android:textColorPrimary">#212121</item>
     </style>
 
     <style name="BottomDialogActivity" parent="Theme.AppCompat.Light.NoActionBar">
@@ -19,6 +23,9 @@
         <item name="android:windowExitAnimation">@null</item>
         <item name="android:windowBackground">@color/trans</item>
         <item name="android:fitsSystemWindows">false</item>
+
+        <item name="bd_bg_color">@color/color_dialog_bg</item>
+        <item name="android:textColorPrimary">#212121</item>
     </style>
 
 

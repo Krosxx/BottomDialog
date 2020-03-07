@@ -365,6 +365,37 @@ BottomDialog.builder(this) {
 }
 ```
 
+### 适配主题
+
+目前有两个自定义属性：
+`?attr/bd_bg_color` 背景色
+`?android:attr/textColorPrimary` 文字颜色
+
+在使用自定义主题时，需要指定上面两个属性：
+
+```xml
+<style name="BottomDialog.Dark" parent="BottomDialog">
+    <item name="bd_bg_color">#212121</item>
+    <item name="android:textColorPrimary">#fff</item>
+</style>
+```
+
+使用主题：
+
+```kotlin
+BottomDialog.builder(this) {
+    themeId = dialogTheme
+    //...
+}
+```
+
+注意自定义的 `ContentBuilder` 也需使用动态属性：
+
+```xml
+<androidx.appcompat.widget.Toolbar
+    android:background="?attr/bd_bg_color"
+    app:titleTextColor="?android:attr/textColorPrimary" />
+```
 
 ### Faqs
 

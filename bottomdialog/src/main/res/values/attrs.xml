@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    //背景色
+    <attr name="bd_bg_color" format="color" />
+
+
+    //文字色 android:textColorPrimary
+
+</resources>

@@ -35,7 +35,7 @@ fun BottomDialog.updateToolBar(f: ToolbarHeader.() -> Unit) {
 
 class ToolbarHeader(
     title: CharSequence? = null,
-    private val round: Boolean = false
+    var round: Boolean = false
 ) : ContentBuilder() {
     /**
      * 指定更新type=1

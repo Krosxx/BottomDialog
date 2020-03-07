@@ -39,7 +39,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_dialog_bg">
+            android:background="?attr/bd_bg_color">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/container"
