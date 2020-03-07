@@ -1,6 +1,7 @@
 package cn.vove7.bottomdialog.util
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
@@ -49,5 +50,11 @@ fun Context.attr(@AttrRes attrId: Int): TypedValue = TypedValue().also {
 
 val Context.primaryColor: Int?
     get() = ContextCompat.getColor(this, R.color.colorPrimary)
+
 val Context.accentColor: Int?
     get() = ContextCompat.getColor(this, R.color.colorAccent)
+
+val Context.isDarkMode
+    get() = (resources!!.configuration.uiMode
+            and Configuration.UI_MODE_NIGHT_MASK) ==
+            Configuration.UI_MODE_NIGHT_YES

@@ -5,15 +5,16 @@ package cn.vove7.bottomdialog.builder
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import android.util.DisplayMetrics
 import android.view.MenuItem
 import android.view.WindowManager
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.ToolbarHeader
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.ObservableList
+import cn.vove7.bottomdialog.util.isDarkMode
 import cn.vove7.bottomdialog.util.primaryColor
 
 /**
@@ -24,7 +25,19 @@ import cn.vove7.bottomdialog.util.primaryColor
  */
 @Suppress("unused")
 open class BottomDialogBuilder(var context: Context) {
-    var themeId: Int = R.style.BottomDialog
+    companion object {
+        //是否开启自动暗黑主题
+        var enableAutoDarkTheme: Boolean = false
+        var darkTheme: Int = 0
+    }
+
+    var themeId: Int = if (enableAutoDarkTheme && context.isDarkMode)
+        darkTheme.let {
+            require(it != 0) { "if enableAutoDarkTheme == true please set the value of darkTheme" }
+            it
+        }
+
+    else R.style.BottomDialog
 
     /**
      * 高度百分比
@@ -46,6 +59,7 @@ open class BottomDialogBuilder(var context: Context) {
             peekHeightProportion = 0.6f
         }
     }
+
     /**
      * 头部布局
      */
@@ -261,9 +275,13 @@ fun BottomDialogBuilder.mutableList(
  * @param title CharSequence?
  * @return BottomDialogBuilder
  */
-fun BottomDialogBuilder.title(title: CharSequence?, round: Boolean = false): BottomDialogBuilder {
+fun BottomDialogBuilder.title(
+    title: CharSequence?,
+    round: Boolean = false,
+    centerTitle: Boolean = false
+): BottomDialogBuilder {
     if (headerBuilder == null) {
-        headerBuilder = ToolbarHeader(title, round)
+        headerBuilder = ToolbarHeader(title, round, centerTitle)
     } else {
         (headerBuilder as ToolbarHeader).title = title
     }
@@ -281,7 +299,7 @@ fun BottomDialogBuilder.menu(menuResId: Int): BottomDialogBuilder {
     }
     if (headerBuilder is ToolbarHeader) {
         (headerBuilder as ToolbarHeader).apply {
-            toolBar.inflateMenu(menuResId)
+            toolbar.inflateMenu(menuResId)
         }
     } else {
         throw RuntimeException("此方法 必须设置 headerBuilder 为 ToolbarHeader")

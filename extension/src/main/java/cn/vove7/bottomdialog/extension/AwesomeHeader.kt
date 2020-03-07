@@ -13,11 +13,12 @@ import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.fadeIn
 import cn.vove7.bottomdialog.util.fadeOut
+import cn.vove7.bottomdialog.util.isDarkMode
 import cn.vove7.bottomdialog.util.listenToUpdate
 import kotlinx.android.synthetic.main.header_awesome.view.*
 
 
-fun BottomDialogBuilder.awesomeHeader(title: String, isDark: Boolean = false) {
+fun BottomDialogBuilder.awesomeHeader(title: String, isDark: Boolean = context.isDarkMode) {
     header(AwesomeHeader()) {
         this.title = title
         isDarkHeader = isDark

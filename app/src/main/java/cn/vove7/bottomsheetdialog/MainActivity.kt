@@ -20,8 +20,8 @@ import cn.vove7.bottomdialog.extension.awesomeHeader
 import cn.vove7.bottomdialog.toolbar
 import cn.vove7.bottomdialog.util.ObservableList
 import cn.vove7.bottomsheetdialog.builder.AppListBuilder
-import cn.vove7.bottomsheetdialog.builder.MarkdownContentBuilder
 import cn.vove7.bottomsheetdialog.builder.ViewIntentBuilder
+import cn.vove7.bottomsheetdialog.builder.markdownContent
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -30,16 +30,14 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    private val dialogTheme
-        get() = if (cb_dark_node.isChecked) {
-            R.style.BottomDialog_Dark
-        } else {
-            R.style.BottomDialog
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        BottomDialogBuilder.apply {
+            enableAutoDarkTheme = true
+            darkTheme = R.style.BottomDialog_Dark
+        }
 
         val items = listOf(
             getString(R.string.message_dialog),
@@ -57,15 +55,16 @@ class MainActivity : AppCompatActivity() {
         )
         list_view.adapter = object : BaseAdapter() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-                return if (convertView == null) TextView(this@MainActivity).apply {
+                return ((convertView as TextView?)
+                    ?: TextView(this@MainActivity)).apply {
 
                     setPadding(20, 30, 20, 30)
-                    setText(items[position])
+                    text = items[position]
 
                     setOnClickListener {
                         onClick(position)
                     }
-                } else convertView
+                }
             }
 
             override fun getItem(position: Int): Any = items[position]
@@ -80,12 +79,10 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onClick(pos: Int) {
-        val isDark = dialogTheme == R.style.BottomDialog_Dark
         when (pos) {
             0 -> {
                 BottomDialog.builder(this) {
                     title("Hello", true)
-                    themeId = dialogTheme
                     cancelable(false)
                     withCloseIcon()
                     message(
@@ -113,7 +110,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
                     this.title("Hello")
                     mutableList(list) { _, position, s, l ->
                         toast("clicked $s at $position longClick: $l")
@@ -133,7 +129,6 @@ class MainActivity : AppCompatActivity() {
             2 -> {
 
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
                     title("应用列表")
                     content(AppListBuilder(this@MainActivity) { _, p, i, l ->
                         toast("$p\n$i\n$l")
@@ -145,7 +140,6 @@ class MainActivity : AppCompatActivity() {
             3 -> {
 
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
                     title("Hello")
                     buttons {
                         positiveButton {
@@ -166,7 +160,6 @@ class MainActivity : AppCompatActivity() {
             }
             4 -> {
                 BottomDialogActivity.builder(this) {
-                    themeId = dialogTheme
                     title("BottomDialogActivity")
                     message("in activity")
                     oneButton("Cancel")
@@ -174,7 +167,6 @@ class MainActivity : AppCompatActivity() {
             }
             5 -> {
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
                     toolbar {
                         title = "Hello"
                         round = true
@@ -187,8 +179,7 @@ class MainActivity : AppCompatActivity() {
             }
             6 -> {
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
-                    awesomeHeader("分享到", isDark)
+                    awesomeHeader("分享到")
                     message(buildString {
                         for (i in 0..100) append(i)
                     })
@@ -203,8 +194,7 @@ class MainActivity : AppCompatActivity() {
             8 -> {
                 //分享
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
-                    awesomeHeader("分享到", isDark)
+                    awesomeHeader("分享到")
 
                     val intentFilter = Intent(Intent.ACTION_SEND).apply {
                         type = "text/plain"
@@ -222,10 +212,9 @@ class MainActivity : AppCompatActivity() {
             }
             9 -> {
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
-                    awesomeHeader("介绍", isDark)
+                    awesomeHeader("介绍")
 
-                    content(MarkdownContentBuilder(isDark)) {
+                    markdownContent {
                         loadMarkdownFromAsset("intro.md")
                     }
                     oneButton("确定", colorId = R.color.colorPrimary)
@@ -234,11 +223,9 @@ class MainActivity : AppCompatActivity() {
             10 -> {
                 BottomDialog.builder(this) {
                     expandable = false
-                    themeId = dialogTheme
                     peekHeightProportion = 0.8f
                     title("介绍", true)
-
-                    content(MarkdownContentBuilder(isDark)) {
+                    markdownContent {
                         loadMarkdownFromAsset("intro.md")
                     }
                     oneButton("确定", colorId = R.color.colorPrimary)
@@ -246,8 +233,7 @@ class MainActivity : AppCompatActivity() {
             }
             11 -> {
                 BottomDialog.builder(this) {
-                    themeId = dialogTheme
-                    title("一天掉多少根头发", true)
+                    title("一天掉多少根头发", true, true)
                     cancelable(false)
                     withCloseIcon()
                     message(

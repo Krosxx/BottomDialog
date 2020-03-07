@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.view.View
 import br.tiagohm.markdownview.MarkdownView
 import br.tiagohm.markdownview.css.styles.Bootstrap
+import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import cn.vove7.bottomdialog.util.isDarkMode
 import cn.vove7.bottomsheetdialog.R
 import kotlinx.android.synthetic.main.dialog_markdown_view.view.*
 import java.io.File
@@ -16,6 +18,11 @@ import java.io.File
  * @author Vove
  * 2019/6/30
  */
+
+fun BottomDialogBuilder.markdownContent(action: MarkdownContentBuilder.() -> Unit) {
+    content(MarkdownContentBuilder(context.isDarkMode), action)
+}
+
 class MarkdownContentBuilder(
     private val isDarkMode: Boolean = false
 ) : ContentBuilder() {
