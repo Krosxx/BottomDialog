@@ -29,7 +29,7 @@ class BehaviorController(view: View, lis: StatusCallback) {
 
     init {
         behavior.peekHeight = 800
-        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(p0: View, p1: Float) {
                 lis.onSlide(p1)
             }
