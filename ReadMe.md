@@ -384,7 +384,7 @@ BottomDialog.builder(this) {
 
 ```kotlin
 BottomDialog.builder(this) {
-    themeId = dialogTheme
+    themeId = R.style.BottomDialog_Dark
     //...
 }
 ```
