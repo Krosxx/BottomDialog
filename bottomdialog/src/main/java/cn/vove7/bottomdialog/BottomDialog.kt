@@ -3,7 +3,6 @@ package cn.vove7.bottomdialog
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
@@ -120,6 +119,8 @@ class BottomDialog internal constructor(
 
     lateinit var statusCallbacks: MutableList<StatusCallback>
 
+    private var firstShow = true
+
     private val lis: StatusCallback = object : StatusCallback {
         override fun onSlide(slideOffset: Float) {
             if (this@BottomDialog::statusCallbacks.isInitialized) {
@@ -134,12 +135,24 @@ class BottomDialog internal constructor(
         }
 
         override fun onExpand() {
+            if (expand && firstShow) {
+                firstShow = false
+                headerBuilder?.onAfterShow()
+                contentBuilder?.onAfterShow()
+                footerBuilder?.onAfterShow()
+            }
             if (this@BottomDialog::statusCallbacks.isInitialized) {
                 statusCallbacks.forEach { it.onExpand() }
             }
         }
 
         override fun onCollapsed() {
+            if (!expand && firstShow) {
+                firstShow = false
+                headerBuilder?.onAfterShow()
+                contentBuilder?.onAfterShow()
+                footerBuilder?.onAfterShow()
+            }
             if (this@BottomDialog::statusCallbacks.isInitialized) {
                 statusCallbacks.forEach { it.onCollapsed() }
             }
