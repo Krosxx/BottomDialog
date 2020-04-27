@@ -29,6 +29,7 @@ open class BottomDialogBuilder(var context: Context) {
         //是否开启自动暗黑主题
         var enableAutoDarkTheme: Boolean = false
         var darkTheme: Int = 0
+        var lightThemeId = R.style.BottomDialog
     }
 
     var themeId: Int = if (enableAutoDarkTheme && context.isDarkMode)
@@ -36,8 +37,7 @@ open class BottomDialogBuilder(var context: Context) {
             require(it != 0) { "if enableAutoDarkTheme == true please set the value of darkTheme" }
             it
         }
-
-    else R.style.BottomDialog
+    else lightThemeId
 
     /**
      * 高度百分比
