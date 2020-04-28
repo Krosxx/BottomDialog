@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import cn.vove7.bottomdialog.util.isDarkMode
 import kotlinx.android.synthetic.main.action_buttons.view.*
 
 /**
@@ -29,6 +30,9 @@ class ButtonsBuilder : ContentBuilder() {
         buttonPositive = view.dialog_button_positive
         buttonNegative = view.dialog_button_negative
         buttonNeutral = view.dialog_button_neutral
+        if (!dialog.context.isDarkMode) {
+            dialog.lightNavBar = true
+        }
     }
 
     fun positiveButton(text: CharSequence = "确认", onClick: OnClick) {
@@ -47,7 +51,11 @@ class ButtonsBuilder : ContentBuilder() {
         map[index] = (text to onClick)
     }
 
-    private fun setButton(btn: TextView, text: CharSequence, onClick: OnClick = { dialog.dismiss() }) {
+    private fun setButton(
+        btn: TextView,
+        text: CharSequence,
+        onClick: OnClick = { dialog.dismiss() }
+    ) {
         btn.text = text
         btn.visibility = View.VISIBLE
         btn.setOnClickListener { onClick(dialog) }

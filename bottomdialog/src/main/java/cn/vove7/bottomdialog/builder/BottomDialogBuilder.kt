@@ -106,6 +106,9 @@ open class BottomDialogBuilder(var context: Context) {
                 if (enableAutoDarkTheme && context.isDarkMode) Color.GRAY else Color.WHITE
             )
 
+    //控制导航栏按钮颜色
+    var lightNavBar = false
+
 
     fun peekHeight(peekHeight: Int) {
         this.peekHeight = peekHeight

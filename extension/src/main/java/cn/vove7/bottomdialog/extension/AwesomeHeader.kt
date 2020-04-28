@@ -120,12 +120,16 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         if (isDarkHeader) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val navFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && dialog.lightNavBar)
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
             if (status == 0) {
                 dialog.window?.decorView?.systemUiVisibility =
-                    SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or navFlag
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    dialog.window?.decorView?.systemUiVisibility = SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    dialog.window?.decorView?.systemUiVisibility =
+                        SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or navFlag
                 }
             }
         }

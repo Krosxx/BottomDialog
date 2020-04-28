@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import cn.vove7.bottomdialog.util.isDarkMode
 import cn.vove7.bottomdialog.util.listenToUpdate
 import kotlinx.android.synthetic.main.one_action_button.view.*
 
@@ -41,6 +42,8 @@ class OneActionBuilder(
             val c = ContextCompat.getColor(appC, colorRes)
             (actionButton.parent as ViewGroup).setBackgroundColor(c)
             dialog.navColor = c
+        } else if (!dialog.context.isDarkMode) {
+            dialog.lightNavBar = true
         }
     }
 

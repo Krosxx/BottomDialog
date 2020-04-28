@@ -14,6 +14,7 @@ import android.view.View.NO_ID
 import androidx.core.widget.NestedScrollView
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
+import cn.vove7.bottomdialog.util.isDarkMode
 import kotlinx.android.synthetic.main.dialog_content.*
 
 
@@ -100,6 +101,12 @@ class BottomDialog internal constructor(
                 }
             }
             field = value
+        }
+
+    var lightNavBar: Boolean = builder.lightNavBar
+        set(value) {
+            field = value
+            setLightNavbar()
         }
 
     private val onDismiss: (() -> Unit)? = builder.onDismiss
@@ -247,6 +254,9 @@ class BottomDialog internal constructor(
             })
         } ?: {
             footerView.visibility = View.GONE
+            if (!context.isDarkMode) {
+                lightNavBar = true
+            }
             setContentMarginBottom(navHeight)
         }.invoke()
 
@@ -261,6 +271,7 @@ class BottomDialog internal constructor(
                 height = navHeight
             }
         }
+        setLightNavbar()
 
         //fix: 高度为MATCH_PARENT时，状态栏黑色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -282,6 +293,16 @@ class BottomDialog internal constructor(
         }
 
         shadowListener()
+    }
+
+    private fun setLightNavbar() {
+        window?.decorView?.systemUiVisibility =
+            if (lightNavBar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                0
+            }
     }
 
     private fun shadowListener() {
