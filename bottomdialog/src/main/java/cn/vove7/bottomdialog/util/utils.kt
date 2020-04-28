@@ -2,14 +2,16 @@ package cn.vove7.bottomdialog.util
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.TypedArray
 import android.os.Handler
 import android.os.Looper
-import android.util.TypedValue
 import android.view.View
 import android.view.animation.AlphaAnimation
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import cn.vove7.bottomdialog.R
+
 
 /**
  * # utils
@@ -44,8 +46,12 @@ fun View.fadeIn(duration: Long = 500) {
     })
 }
 
-fun Context.attr(@AttrRes attrId: Int): TypedValue = TypedValue().also {
-    theme.resolveAttribute(attrId, it, true)
+fun Context.attrColor(@AttrRes attrId: Int, @ColorInt dc: Int): Int {
+    val attrsArray = intArrayOf(attrId)
+    val typedArray: TypedArray = obtainStyledAttributes(attrsArray)
+    val c = typedArray.getColor(0, dc)
+    typedArray.recycle()
+    return c
 }
 
 val Context.primaryColor: Int?

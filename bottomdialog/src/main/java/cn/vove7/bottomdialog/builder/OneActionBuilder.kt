@@ -9,7 +9,6 @@ import cn.vove7.bottomdialog.BottomDialog
 import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.listenToUpdate
-import cn.vove7.bottomdialog.util.primaryColor
 import kotlinx.android.synthetic.main.one_action_button.view.*
 
 /**
@@ -23,7 +22,8 @@ class OneActionBuilder(
     private val autoDismiss: Boolean,
     private val onClick: OnClick?,
     private val onLongClick: OnClick?,
-    @ColorRes private val colorRes: Int?
+    @ColorRes private val colorRes: Int?,
+    @ColorRes private val textColor: Int?
 ) : ContentBuilder() {
     var buttonText: String by listenToUpdate(buttonText, this)
 
@@ -34,12 +34,13 @@ class OneActionBuilder(
     override fun init(view: View) {
         actionButton = view.action_button
         val appC = actionButton.context.applicationContext
+        textColor?.also {
+            actionButton.setTextColor(ContextCompat.getColor(appC, it))
+        }
         if (colorRes != null) {
-            (actionButton.parent as ViewGroup).setBackgroundColor(ContextCompat.getColor(appC, colorRes))
-        } else {
-            appC.primaryColor?.also {
-                (actionButton.parent as ViewGroup).setBackgroundColor(it)
-            }
+            val c = ContextCompat.getColor(appC, colorRes)
+            (actionButton.parent as ViewGroup).setBackgroundColor(c)
+            dialog.navColor = c
         }
     }
 

@@ -10,6 +10,7 @@
 
     <style name="BottomDialog.Dark" parent="BottomDialog">
         <item name="bd_bg_color">#212121</item>
+        <item name="bd_nav_color">?bd_bg_color</item>
         <item name="android:textColorPrimary">#fff</item>
     </style>
 

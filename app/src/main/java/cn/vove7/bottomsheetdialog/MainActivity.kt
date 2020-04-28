@@ -93,7 +93,11 @@ class MainActivity : AppCompatActivity() {
                             }
                         }, true
                     )
-                    oneButton("OK", colorId = R.color.colorAccent) {
+                    oneButton(
+                        "OK",
+                        bgColorId = R.color.colorAccent,
+                        textColorId = android.R.color.white
+                    ) {
                         onLongClick { dialog ->
                             dialog.updateContent<MessageContentBuilder> {
                                 text = Random().nextDouble().toString()
@@ -217,7 +221,11 @@ class MainActivity : AppCompatActivity() {
                     markdownContent {
                         loadMarkdownFromAsset("intro.md")
                     }
-                    oneButton("确定", colorId = R.color.colorPrimary)
+                    oneButton(
+                        "确定",
+                        bgColorId = R.color.colorPrimary,
+                        textColorId = android.R.color.white
+                    )
                 }
             }
             10 -> {
@@ -228,7 +236,11 @@ class MainActivity : AppCompatActivity() {
                     markdownContent {
                         loadMarkdownFromAsset("intro.md")
                     }
-                    oneButton("确定", colorId = R.color.colorPrimary)
+                    oneButton(
+                        "确定",
+                        bgColorId = R.color.colorPrimary,
+                        textColorId = android.R.color.white
+                    )
                 }
             }
             11 -> {

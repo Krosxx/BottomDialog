@@ -8,13 +8,13 @@
     tools:context=".MainActivity"
     tools:ignore="ExtraText">
 
-    <CheckBox
+    <TextView
         android:id="@+id/cb_dark_node"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
         android:padding="10dp"
-        android:text="Dark Mode" />
+        android:text="Auto Dark Mode" />
 
     <ListView
         android:id="@+id/list_view"

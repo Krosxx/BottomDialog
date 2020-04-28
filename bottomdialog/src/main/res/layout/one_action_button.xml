@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
+    android:background="?attr/bd_bg_color"
     android:orientation="vertical">
 
 
@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
-        android:textColor="#fff"
+        android:textColor="?android:textColorPrimary"
         tools:text="ACTION" />
 </LinearLayout>

@@ -44,7 +44,8 @@
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
 
                 <FrameLayout
                     android:id="@+id/content"
@@ -52,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
             </androidx.core.widget.NestedScrollView>
+
             <View
                 android:id="@+id/appbar_elevation"
                 android:layout_width="match_parent"
@@ -98,7 +100,7 @@
             android:id="@+id/fill_nav"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="?attr/colorPrimary" />
+            android:background="#fff" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

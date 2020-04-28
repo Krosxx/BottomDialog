@@ -62,6 +62,7 @@ class BottomDialog internal constructor(
      */
     var headerBuilder: ContentBuilder? = builder.headerBuilder
         private set
+
     /**
      * 内容布局
      */
@@ -92,8 +93,17 @@ class BottomDialog internal constructor(
     private var mCancelable = builder.mCancelable
 
     var navColor: Int? = builder.navBgColor
+        set(value) {
+            findViewById<View>(R.id.fill_nav)?.also {
+                value?.also { c ->
+                    it.setBackgroundColor(c)
+                }
+            }
+            field = value
+        }
 
     private val onDismiss: (() -> Unit)? = builder.onDismiss
+
     /**
      * 底部布局高度
      */

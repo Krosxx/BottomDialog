@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.util.DisplayMetrics
+import android.view.ContextThemeWrapper
 import android.view.MenuItem
 import android.view.WindowManager
 import androidx.annotation.ColorInt
@@ -14,8 +15,8 @@ import cn.vove7.bottomdialog.R
 import cn.vove7.bottomdialog.ToolbarHeader
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
 import cn.vove7.bottomdialog.util.ObservableList
+import cn.vove7.bottomdialog.util.attrColor
 import cn.vove7.bottomdialog.util.isDarkMode
-import cn.vove7.bottomdialog.util.primaryColor
 
 /**
  * # BottomDialogInterface
@@ -98,7 +99,13 @@ open class BottomDialogBuilder(var context: Context) {
      * 导航栏背景色(若存在导航栏)
      */
     @ColorInt
-    var navBgColor: Int? = context.primaryColor
+    var navBgColor: Int? = null
+        get() = field ?: ContextThemeWrapper(context, themeId)
+            .attrColor(
+                R.attr.bd_nav_color,
+                if (enableAutoDarkTheme && context.isDarkMode) Color.GRAY else Color.WHITE
+            )
+
 
     fun peekHeight(peekHeight: Int) {
         this.peekHeight = peekHeight
@@ -178,14 +185,22 @@ open class BottomDialogBuilder(var context: Context) {
  */
 fun BottomDialogBuilder.oneButton(
     text: String,
-    @ColorRes colorId: Int? = null,
+    @ColorRes bgColorId: Int? = null,
+    @ColorRes textColorId: Int? = null,
     autoDismiss: Boolean = true,
     listener: (ClickListenerSetter.() -> Unit)? = null
 ): BottomDialogBuilder {
     val cbSetter = ClickListenerSetter()
     listener?.invoke(cbSetter)
     footerBuilder =
-        OneActionBuilder(text, autoDismiss, cbSetter._onClick, cbSetter._onLongClick, colorId)
+        OneActionBuilder(
+            text,
+            autoDismiss,
+            cbSetter._onClick,
+            cbSetter._onLongClick,
+            bgColorId,
+            textColorId
+        )
     return this
 }
 

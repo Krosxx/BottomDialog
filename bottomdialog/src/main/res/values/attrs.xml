@@ -3,6 +3,8 @@
 
     //背景色
     <attr name="bd_bg_color" format="color" />
+    //导航栏色
+    <attr name="bd_nav_color" format="color" />
 
 
     //文字色 android:textColorPrimary
