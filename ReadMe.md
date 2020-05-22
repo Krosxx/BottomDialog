@@ -142,17 +142,14 @@ allprojects {
 
 2. 添加依赖
 
-最新版本：
+最新版本 [AndroidX]：
 [![](https://jitpack.io/v/Vove7/BottomDialog.svg)](https://jitpack.io/#Vove7/BottomDialog)
 
 - BottomDialog
 
 ```groovy
 dependencies {
-	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1'
-	
-	//android x 使用依赖：
-	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.1-x'
+	implementation 'com.github.Vove7.BottomDialog:bottomdialog:2.2.5'
 }
 ```
 
@@ -160,10 +157,7 @@ dependencies {
 
 ```groovy
 dependencies {
-	implementation 'com.github.Vove7.BottomDialog:extension:2.1'
-	
-	//android x 使用依赖：
-	implementation 'com.github.Vove7.BottomDialog:extension:2.1-x'
+	implementation 'com.github.Vove7.BottomDialog:extension:2.2.5'
 }
 ```
 
