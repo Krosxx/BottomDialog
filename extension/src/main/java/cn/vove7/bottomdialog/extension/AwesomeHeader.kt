@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import cn.vove7.bottomdialog.StatusCallback
@@ -82,6 +83,17 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
             setStatusbarColor()
         }
         lastOff = slideOffset
+    }
+
+    override fun onAfterShow() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            dialog.apply {
+                val lp = window?.attributes
+                lp?.layoutInDisplayCutoutMode =
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                window?.attributes = lp
+            }
+        }
     }
 
     fun fill() {
