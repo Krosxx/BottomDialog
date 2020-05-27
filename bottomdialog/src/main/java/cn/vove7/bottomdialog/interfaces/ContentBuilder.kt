@@ -50,6 +50,7 @@ abstract class ContentBuilder {
     }
 
     open fun onAfterShow() {}
+    open fun onShow() {}
 
     fun listenStatus(lis:StatusCallback) {
         dialog.listenStatus(lis)

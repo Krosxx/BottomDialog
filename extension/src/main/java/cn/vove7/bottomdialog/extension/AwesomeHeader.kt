@@ -85,7 +85,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         lastOff = slideOffset
     }
 
-    override fun onAfterShow() {
+    override fun onShow() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             dialog.apply {
                 val lp = window?.attributes
