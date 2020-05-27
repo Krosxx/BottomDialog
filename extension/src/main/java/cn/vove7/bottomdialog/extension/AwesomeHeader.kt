@@ -2,26 +2,30 @@ package cn.vove7.bottomdialog.extension
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import cn.vove7.bottomdialog.StatusCallback
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
-import cn.vove7.bottomdialog.util.fadeIn
-import cn.vove7.bottomdialog.util.fadeOut
-import cn.vove7.bottomdialog.util.isDarkMode
-import cn.vove7.bottomdialog.util.listenToUpdate
+import cn.vove7.bottomdialog.util.*
 import kotlinx.android.synthetic.main.header_awesome.view.*
 
 
-fun BottomDialogBuilder.awesomeHeader(title: String, isDark: Boolean = context.isDarkMode) {
+fun BottomDialogBuilder.awesomeHeader(
+    title: String,
+    isDark: Boolean = context.isDarkMode,
+    round: Boolean = true
+) {
     header(AwesomeHeader()) {
         this.title = title
+        this.round = round
         isDarkHeader = isDark
     }
 }
@@ -37,6 +41,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         get() = R.layout.header_awesome
 
     var title: String? by listenToUpdate(null, this)
+    internal var round: Boolean = true
 
     lateinit var littleTitle: TextView
     lateinit var titleView: TextView
@@ -44,6 +49,8 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
     lateinit var titleLay: View
     lateinit var fillView: View
     lateinit var filllay: View
+    lateinit var titleBg: ViewGroup
+
     override fun init(view: View) {
         view.close_btn.setOnClickListener {
             dialog.dismiss()
@@ -51,6 +58,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         fillView = view.fill_view
         filllay = view.fill_layout
         titleLay = view.title_lay
+        titleBg = view.hide_title
         filllay.layoutParams = filllay.layoutParams.also {
             it.height = dialog.stateBarHeight + 50
         }
@@ -61,6 +69,9 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         dialog.headerView.setBackgroundColor(0x0)
         listenStatus(this)
 
+        if (round) {
+            titleBg.setBackgroundResource(R.drawable.toolbar_round_bg)
+        }
     }
 
     var isDarkHeader: Boolean = false
@@ -98,14 +109,22 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
 
     fun fill() {
         startAnimation(filllay.height)
+        if (round) {
+            titleBg.setBackgroundColor(dialog.context.attrColor(R.attr.bd_bg_color, Color.WHITE))
+        }
     }
 
     fun unFill() {
-        startAnimation(0)
+        startAnimation(0) {
+            if (round) {
+                titleBg.setBackgroundResource(R.drawable.toolbar_round_bg)
+            }
+        }
     }
 
-    var animator: Animator? = null
-    fun startAnimation(to: Int) {
+    private var animator: Animator? = null
+
+    fun startAnimation(to: Int, onFinish: (() -> Unit)? = null) {
         val begin = fillView.height
 
         animator?.cancel()
@@ -120,6 +139,21 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
                     g.height = it.animatedValue as Int
                 }
             }
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    onFinish?.invoke()
+                }
+
+                override fun onAnimationCancel(animation: Animator) {
+                }
+
+                override fun onAnimationStart(animation: Animator) {
+                }
+            })
             start()
         }
     }

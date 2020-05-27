@@ -14,6 +14,7 @@
         <item name="bd_bg_color">@color/color_dialog_bg</item>
         <item name="android:textColorPrimary">#212121</item>
         <item name="bd_nav_color">@android:color/white</item>
+        <item name="bd_bar_radius">20dp</item>
     </style>
 
     <style name="BottomDialogActivity" parent="Theme.AppCompat.Light.NoActionBar">

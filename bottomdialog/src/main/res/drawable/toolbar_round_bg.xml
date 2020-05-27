@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp" />
+        android:topLeftRadius="?attr/bd_bar_radius"
+        android:topRightRadius="?attr/bd_bar_radius" />
     <solid android:color="?attr/bd_bg_color" />
 </shape>
