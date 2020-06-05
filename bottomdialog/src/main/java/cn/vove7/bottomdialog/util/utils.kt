@@ -54,6 +54,14 @@ fun Context.attrColor(@AttrRes attrId: Int, @ColorInt dc: Int): Int {
     return c
 }
 
+fun Context.attrDimension(@AttrRes attrId: Int, dv: Float): Float {
+    val attrsArray = intArrayOf(attrId)
+    val typedArray: TypedArray = obtainStyledAttributes(attrsArray)
+    val c = typedArray.getDimension(0, dv)
+    typedArray.recycle()
+    return c
+}
+
 val Context.primaryColor: Int?
     get() = ContextCompat.getColor(this, R.color.colorPrimary)
 

@@ -3,6 +3,8 @@ package cn.vove7.bottomdialog.extension
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -11,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import cn.vove7.bottomdialog.StatusCallback
 import cn.vove7.bottomdialog.builder.BottomDialogBuilder
 import cn.vove7.bottomdialog.interfaces.ContentBuilder
@@ -70,7 +73,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         listenStatus(this)
 
         if (round) {
-            titleBg.setBackgroundResource(R.drawable.toolbar_round_bg)
+            ViewCompat.setBackground(titleBg, buildRoundBgWithRadius(bgRadius))
         }
     }
 
@@ -107,33 +110,88 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
         }
     }
 
-    fun fill() {
-        startAnimation(filllay.height)
+    private val bgColor by lazy {
+        dialog.context.attrColor(R.attr.bd_bg_color, Color.WHITE)
+    }
+    private val bgRadius by lazy {
+        dialog.context.attrDimension(R.attr.bd_bar_radius, 0f)
+    }
+
+    private fun fill() {
         if (round) {
-            titleBg.setBackgroundColor(dialog.context.attrColor(R.attr.bd_bg_color, Color.WHITE))
+            heightAnimator?.cancel()
+            startRoundAnimation(currentRound ?: bgRadius, 0f) {
+                startHeightAnimation(filllay.height, 300)
+            }
+        } else {
+            startHeightAnimation(filllay.height, 400)
         }
     }
 
-    fun unFill() {
-        startAnimation(0) {
+    var currentRound: Float? = null
+
+    private var roundAnimator: Animator? = null
+
+    private val roundBg by lazy {
+        GradientDrawable().apply {
+            setColor(bgColor)
+        }
+    }
+
+    private fun buildRoundBgWithRadius(radius: Float): Drawable {
+        currentRound = radius
+        return roundBg.apply {
+            cornerRadii = floatArrayOf(bgRadius, radius, bgRadius, radius, 0f, 0f, 0f, 0f)
+        }
+    }
+
+    //圆角动画
+    private fun startRoundAnimation(from: Float, to: Float, onFinish: (() -> Unit)? = null) {
+        roundAnimator?.cancel()
+        roundAnimator = ValueAnimator.ofFloat(from, to).apply {
+            duration = 150
+            addUpdateListener {
+                ViewCompat.setBackground(titleBg, buildRoundBgWithRadius(it.animatedValue as Float))
+            }
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    roundAnimator = null
+                    onFinish?.invoke()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+
+                override fun onAnimationStart(animation: Animator?) {
+                }
+            })
+            start()
+        }
+
+    }
+
+    private fun unFill() {
+        startHeightAnimation(0, if (round) 300 else 400) {
             if (round) {
-                titleBg.setBackgroundResource(R.drawable.toolbar_round_bg)
+                startRoundAnimation(currentRound ?: 0f, bgRadius)
             }
         }
     }
 
-    private var animator: Animator? = null
+    private var heightAnimator: Animator? = null
 
-    fun startAnimation(to: Int, onFinish: (() -> Unit)? = null) {
+    private fun startHeightAnimation(to: Int, dur: Long, onFinish: (() -> Unit)? = null) {
         val begin = fillView.height
 
-        animator?.cancel()
+        heightAnimator?.cancel()
 
-        animator = ValueAnimator.ofInt(begin, to).apply {
-            duration = 400
-
+        heightAnimator = ValueAnimator.ofInt(begin, to).apply {
+            duration = dur
             interpolator = DecelerateInterpolator()
-
+            var canceled = false
             addUpdateListener {
                 fillView.layoutParams = fillView.layoutParams.also { g ->
                     g.height = it.animatedValue as Int
@@ -145,10 +203,14 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
-                    onFinish?.invoke()
+                    if (!canceled) {
+                        heightAnimator = null
+                        onFinish?.invoke()
+                    }
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
+                    canceled = true
                 }
 
                 override fun onAnimationStart(animation: Animator) {

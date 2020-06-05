@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity() {
                     awesomeHeader("分享到", round = false)
                     message(buildString {
                         for (i in 0..100) append(i)
-                    })
+                    }, true)
                 }
             }
             7 -> {
