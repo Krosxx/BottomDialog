@@ -6,7 +6,9 @@
 
 > 使用BottomSheet，支持滚动布局，同时底部布局不会因BottomSheet未显示全部内容而隐藏。
 
-<img src="screenshots/s0.png" width="300px"/>
+|![](screenshots/s0.jpg)|![](screenshots/s2.jpg)|![](screenshots/s1.jpg)|
+|-|-|-|
+
 
 ### 目录
 

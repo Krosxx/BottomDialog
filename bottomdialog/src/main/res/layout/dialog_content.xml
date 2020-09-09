@@ -86,7 +86,7 @@
             <View
                 android:id="@+id/footer_elevation"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:background="@drawable/footer_shadow" />
 
             <FrameLayout

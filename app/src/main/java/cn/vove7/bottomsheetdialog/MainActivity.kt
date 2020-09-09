@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 BottomDialog.builder(this) {
-                    this.title("Hello")
+                    this.title("Hello", true)
                     mutableList(list) { _, position, s, l ->
                         toast("clicked $s at $position longClick: $l")
                     }
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
             2 -> {
 
                 BottomDialog.builder(this) {
-                    title("应用列表")
+                    title("应用列表", true)
                     content(AppListBuilder(this@MainActivity) { _, p, i, l ->
                         toast("$p\n$i\n$l")
                     })
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             3 -> {
 
                 BottomDialog.builder(this) {
-                    title("Hello")
+                    title("Hello", true)
                     buttons {
                         positiveButton {
                             toast("确认")
@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             }
             4 -> {
                 BottomDialogActivity.builder(this) {
-                    title("BottomDialogActivity")
+                    title("BottomDialogActivity", true)
                     message("in activity")
                     oneButton("Cancel")
                 }
@@ -183,10 +183,10 @@ class MainActivity : AppCompatActivity() {
             }
             6 -> {
                 BottomDialog.builder(this) {
-                    awesomeHeader("分享到")
+                    awesomeHeader("分享到", round = false)
                     message(buildString {
                         for (i in 0..100) append(i)
-                    })
+                    }, true)
                 }
             }
             7 -> {

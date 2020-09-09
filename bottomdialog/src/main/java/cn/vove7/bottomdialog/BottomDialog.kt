@@ -442,6 +442,11 @@ class BottomDialog internal constructor(
         } else {
             Handler().postDelayed({ showInternal() }, 1)
         }
+
+
+        headerBuilder?.onShow()
+        contentBuilder?.onShow()
+        footerBuilder?.onShow()
     }
 
     private fun showInternal() {
