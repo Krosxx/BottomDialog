@@ -364,6 +364,10 @@ class BottomDialog internal constructor(
      * @return Int
      */
     private fun getNavigationBarHeight(): Int {
+        //Android R 已适配
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return 0
+        }
         val resources = context.resources
         return if (checkNavigationBarShow(activity.window)) {//判断是否有导航栏
             val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
