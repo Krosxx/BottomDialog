@@ -37,15 +37,13 @@ abstract class ContentBuilder {
 
     fun build(context: Context, dialog: BottomDialog): View {
         this.dialog = dialog
-        try {
-            contentView
-        } catch (e: Exception) {
+        if(!::contentView.isInitialized) {
             contentView = LayoutInflater.from(context).inflate(layoutRes, null, false)
             init(contentView)
             updateContent(-1)
             afterShow?.invoke()
-        }
 
+        }
         return contentView
     }
 
