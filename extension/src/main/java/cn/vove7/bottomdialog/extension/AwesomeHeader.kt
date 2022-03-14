@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -54,6 +55,12 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
     lateinit var filllay: View
     lateinit var titleBg: ViewGroup
 
+    fun logInfo(s: String) {
+        if (BuildConfig.DEBUG) {
+            Log.i("AwesomeHeader", s)
+        }
+    }
+
     override fun init(view: View) {
         view.close_btn.setOnClickListener {
             dialog.dismiss()
@@ -84,12 +91,14 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
 
     override fun onSlide(slideOffset: Float) {
         if (slideOffset >= 0.99f && (lastOff < slideOffset) && status != 1) {
+            logInfo("展开")
             status = 1
             littleTitle.fadeOut(400, endStatus = View.INVISIBLE)
             titleLay.fadeIn(400)
             fill()
             setStatusbarColor()
         } else if (slideOffset < 0.99f && (lastOff > slideOffset) && status != 0) {
+            logInfo("收起")
             status = 0
             littleTitle.fadeIn(400)
             titleLay.fadeOut(400, endStatus = View.INVISIBLE)
@@ -118,6 +127,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
     }
 
     private fun fill() {
+        logInfo("fill")
         if (round) {
             heightAnimator?.cancel()
             startRoundAnimation(currentRound ?: bgRadius, 0f) {
@@ -159,13 +169,16 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
 
                 override fun onAnimationEnd(animation: Animator?) {
                     roundAnimator = null
+                    logInfo("RoundAnimation End: $from -> $to")
                     onFinish?.invoke()
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
+                    logInfo("RoundAnimation Cancel: $from -> $to")
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
+                    logInfo("RoundAnimation Start: $from -> $to")
                 }
             })
             start()
@@ -174,6 +187,8 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
     }
 
     private fun unFill() {
+        logInfo("unFill")
+        roundAnimator?.cancel()
         startHeightAnimation(0, if (round) 300 else 400) {
             if (round) {
                 startRoundAnimation(currentRound ?: 0f, bgRadius)
@@ -203,6 +218,7 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
                 }
 
                 override fun onAnimationEnd(animation: Animator) {
+                    logInfo("HeightAnimation End  $begin -> $to")
                     if (!canceled) {
                         heightAnimator = null
                         onFinish?.invoke()
@@ -210,10 +226,12 @@ class AwesomeHeader : ContentBuilder(), StatusCallback {
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
+                    logInfo("HeightAnimation Cancel  $begin -> $to")
                     canceled = true
                 }
 
                 override fun onAnimationStart(animation: Animator) {
+                    logInfo("HeightAnimation Start  $begin -> $to")
                 }
             })
             start()
